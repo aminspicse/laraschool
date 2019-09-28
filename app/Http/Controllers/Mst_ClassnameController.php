@@ -1,16 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
 use Illuminate\Http\Request;
-use App\Year;
-class YearController extends Controller
+use App\Mst_classname;
+class Mst_ClassnameController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +13,8 @@ class YearController extends Controller
      */
     public function index()
     {
-        $data = DB::table('years')->orderby('year_name','desc')->get();
-        return view('mst.year.index',compact('data'));
+        $data = Mst_classname::all();
+        return view('mst.class.index',compact('data'));
     }
 
     /**

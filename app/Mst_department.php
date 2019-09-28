@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Year extends Model
+class Mst_department extends Model
 {
-    //
+    //protected
 }

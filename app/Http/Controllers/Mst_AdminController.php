@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
-use App\Auth_backup;
-class AdminController extends Controller
+use App\Mst_auth_backup;
+class Mst_AdminController extends Controller
 {
     public function __construct()
     {
@@ -36,7 +36,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('mst.admin.create');
+        $role = DB::table('mst_role')->get();
+        return view('mst.admin.create',compact('role'));
     }
 
     /**
@@ -51,6 +52,7 @@ class AdminController extends Controller
             'user_name' => $_POST['user_name'],
             'email' => $_POST['email'],
             'password' => Hash::make($_POST['password']),
+            'role_id' => $_POST['role_id'],
             'inst_name' => $_POST['inst_name'],
             'inst_code' => $_POST['inst_code'],
             'inst_ein' => $_POST['inst_ein'],
@@ -129,7 +131,7 @@ class AdminController extends Controller
                 ->update(['auth_code'=>'null']);
 
         // for backup auth code
-        $bkp = new Auth_backup();
+        $bkp = new Mst_auth_backup();
         $bkp->auth_code = Auth::user()->auth_code;
         $bkp->user_id = $id;
         $bkp->deleted_by = Auth::user()->id;

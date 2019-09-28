@@ -238,6 +238,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
+        @if(Auth::user()->role_id == 1)
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Master Data</span>
@@ -249,8 +250,12 @@
             <li><a href="/admin/list"><i class="fa fa-circle-o"></i>Admins</a></li>
             <li><a href="/semester"><i class="fa fa-circle-o"></i>Semester</a></li>
             <li><a href="/year"><i class="fa fa-circle-o"></i>Year</a></li>
+            <li><a href="/department"><i class="fa fa-circle-o"></i>Department</a></li>
+            <li><a href="/class"><i class="fa fa-circle-o"></i>Class</a></li>
+            <li><a href="/subject"><i class="fa fa-circle-o"></i>Subject</a></li>
           </ul>
         </li>
+        @endif
         <li class="treeview active">
           <a href="#">
             <i class="fa fa-files-o"></i>

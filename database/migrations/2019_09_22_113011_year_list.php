@@ -13,7 +13,7 @@ class YearList extends Migration
      */
     public function up()
     {
-        Schema::create('Years', function (Blueprint $table) {
+        Schema::create('mst_years', function (Blueprint $table) {
             $table->bigIncrements('year_id');
             $table->string('year_name');
             $table->timestamps();
@@ -27,6 +27,6 @@ class YearList extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Years');
+        Schema::dropIfExists('mst_years');
     }
 }

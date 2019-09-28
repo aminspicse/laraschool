@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AuthBackup extends Migration
+class MstClass extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class AuthBackup extends Migration
      */
     public function up()
     {
-        Schema::create('mst_auth_backups', function (Blueprint $table) {
-            $table->increments('backup_id');
-            $table->string('auth_code');
+        Schema::create('mst_classnames', function (Blueprint $table) {
+            $table->bigIncrements('class_id');
+            $table->string('class_name');
             $table->string('user_id');
-            $table->string('deleted_by');
+            $table->string('auth_code');
+            $table->string('update_by');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class AuthBackup extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mst_auth_backups');
+        Schema::dropIfExists('mst_classnames');
     }
 }

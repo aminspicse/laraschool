@@ -22,6 +22,17 @@
                     <div class="col-md-3">
                         <input type="text" name="user_name" class="form-control">
                     </div>
+                    <div class="col-md-1">
+                        <label for="">Use Role</label>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="role_id" id="" class="form-control">
+                            <option value="0">Select</option>
+                            @foreach($role as $role)
+                                <option value="{{$role->role_id}}">{{$role->role_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-1">

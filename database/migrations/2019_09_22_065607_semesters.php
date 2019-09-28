@@ -13,7 +13,7 @@ class Semesters extends Migration
      */
     public function up()
     {
-        Schema::create('Semesters', function (Blueprint $table) {
+        Schema::create('mst_semesters', function (Blueprint $table) {
             $table->bigIncrements('semester_id');
             $table->string('semester_name');
             $table->string('auth_code');
@@ -30,6 +30,6 @@ class Semesters extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Semesters');
+        Schema::dropIfExists('mst_semesters');
     }
 }

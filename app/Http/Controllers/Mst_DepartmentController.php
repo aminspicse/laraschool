@@ -4,13 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Semester;
-class SemesterController extends Controller
+use App\Mst_department;
+class Mst_DepartmentController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -18,10 +14,10 @@ class SemesterController extends Controller
      */
     public function index()
     {
-        $data = DB::table('semesters')
+        $data = DB::table('mst_departments')
                 ->where('auth_code',Auth::user()->auth_code)
                 ->get();
-        return view('mst.semester.index',compact('data'));
+        return view('mst.department.index',compact('data'));
     }
 
     /**
@@ -31,7 +27,7 @@ class SemesterController extends Controller
      */
     public function create()
     {
-        return view('mst.semester.create');
+        return view('mst.department.create');
     }
 
     /**
@@ -43,15 +39,17 @@ class SemesterController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'semseter_name' => 'required'
+            'department_name' => 'required'
         ]);
 
-        $data = new Semester();
-        $data->semester_name = request('semseter_name');
-        $data->auth_code = Auth::user()->auth_code;
+        $data = new Mst_department();
+        $data->department_name = $_POST['department_name'];
+        $data->description = $_POST['description'];
         $data->user_id = Auth::user()->id;
+        $data->auth_code = Auth::user()->auth_code;
         $data->save();
-        return redirect('/semester')->with('create','A Semester Created');
+        
+        return redirect('/department')->with('create','Department Created Successfully');
     }
 
     /**
@@ -73,7 +71,11 @@ class SemesterController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = DB::table('mst_departments')
+                ->where([['department_id',$id],['auth_code',Auth::user()->auth_code]])
+                ->first();
+
+        return view('mst.department.edit',compact('data'));
     }
 
     /**
@@ -85,7 +87,19 @@ class SemesterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'department_name' => 'required'
+        ]);
+
+        $data = DB::table('mst_departments')
+            ->where([['department_id',$id],['auth_code',Auth::user()->auth_code]])
+            ->update(['department_name'=>$_POST['department_name'],'description'=>$_POST['description']]);
+        
+        //$data->department_name = $_POST['department_name'];
+        //$data->description = $_POST['description'];
+        //$data->update();
+
+        return redirect('/department')->with('update','Department Updated Successfully');
     }
 
     /**
@@ -96,10 +110,6 @@ class SemesterController extends Controller
      */
     public function destroy($id)
     {
-        $data = DB::table('semesters')
-                ->where([['semester_id',$id],['auth_code',Auth::user()->auth_code]])
-                ->update(['auth_code'=>'null','updated_by'=>Auth::user()->id]);
-               // return $data;
-        return redirect('/semester')->with('delete','A Semester Deleted Successfully');
+        //
     }
 }
