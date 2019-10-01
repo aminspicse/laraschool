@@ -8,18 +8,18 @@
     <div class="card container">
         <div class=" row card-header">
             <div class="col-md-5"><h1>Update Department</h1></div>
-            <div class="col-md-5"><h3><a href="/department">Back</a></h3></div>
+            <div class="col-md-5"><h3><a href="{{url('/department')}}">Back</a></h3></div>
         </div>
         <div class="card-body">
 
-            <form action="/department/update/{{$data->department_id}}" method="post">
+            <form action="{{url('/department/update')}}/{{$data->department_id}}" method="post">
                 @csrf
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="">Department Name</label>
                     </div>
                     <div class="col-md-5">
-                        <input type="text" name="department_name" value="{{$data->department_name}}" class="form-control">
+                        <input type="text" name="department_name" required value="{{$data->department_name}}" class="form-control">
                     </div>
                 </div>
                 <div class="row form-group">

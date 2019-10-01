@@ -2,21 +2,24 @@
 
 @section('content')
 
-<form action="/store" method="post" class="container">
+<form action="{{url('/store')}}" method="post" class="container">
     @csrf
     <div class="row">
-        <h2 class="text-center">Number Entry</h2>
+        <h3 class="text-info text-center">
+        Marks Entry <b>{{$setting->semester_name}}</b> Examination <b>{{$setting->year_id}}</b>
+        Class: <b>{{$setting->class_name}}</b></h3>
     </div>
     <div class="row">
-        <div class="col-md-2">
-            <label for="">Student ID:</label>
+        <div class="col-md-1">
+            <label for="">Std ID:</label>
         </div>
         <div class="col-md-2">
-            <input type="text" name="student_id" class="form-control">
+            <input type="text" name="student_id" value="{{old('student_id')}}" required class="form-control">
         </div>
 
         <div class="col-md-2">
             <select name="class_id" id="" class="form-control">
+                <option value="{{$setting->class_id}}">{{$setting->class_name}}</option>
                 @foreach($class as $class)
                     <option value="{{$class->class_id}}">{{$class->class_name}}</option>
                 @endforeach
@@ -24,8 +27,17 @@
         </div>
         <div class="col-md-2">
             <select name="semester_id" id="" class="form-control">
+                <option value="{{$setting->semester_id}}">{{$setting->semester_name}}</option>
                 @foreach($semester as $sem)
                     <option value="{{$sem->semester_id}}">{{$sem->semester_name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-1">
+            <select name="year_id" id="" class="form-control">
+                <option value="{{$setting->year_id}}">{{$setting->year_id}}</option>
+                @foreach($year as $year)
+                    <option value="{{$year->year_id}}">{{$year->year_name}}</option>
                 @endforeach
             </select>
         </div>
@@ -101,7 +113,7 @@
                     {{$sub->total_pass}},
                     '{{$sub->subject_name}}'
                     )"  
-                    class="form-control display" placeholder="Mcq">
+                    class="form-control display" value="0" placeholder="Mcq">
                 @else
                     <input type="text" name="row[{{$i}}][mcq]" id="mcq[{{$i}}]" 
                     onchange="document.getElementById('total[{{$i}}]').value=
@@ -145,7 +157,7 @@
                     {{$sub->total_pass}},
                     '{{$sub->subject_name}}'
                     )" 
-                    class="display" placeholder="cq">
+                    class="display" value="0" placeholder="cq">
                 @else
                     <input type="text" name="row[{{$i}}][cq]" id="cq[{{$i}}]" 
                     onchange="document.getElementById('total[{{$i}}]').value=
@@ -188,7 +200,7 @@
                     {{$sub->total_pass}},
                     '{{$sub->subject_name}}'
                     )" 
-                    class="display" placeholder="PT">
+                    class="display" value="0" placeholder="PT">
                 @else
                     <input type="text" name="[{{$i}}][pt]" id="pt[{{$i}}]" 
                     onchange="document.getElementById('total[{{$i}}]').value=
@@ -263,7 +275,7 @@
     }
 
 </style>
-<script src="{{asset('markentry/sweetalert.min.js')}}"></script>
+<script src="{{asset('public/markentry/sweetalert.min.js')}}"></script>
 <script>
 /*
     incourse == form incourse mark
@@ -278,7 +290,13 @@
             if(mcq <= mcq_mark){
                 if(cq <= cq_mark){
                     if(pt <= pt_mark){
-                        return incourse+mcq+cq+pt;
+                        if(incourse >= inc_pass && mcq >= mcq_pass && cq >= cq_pass && pt >= pt_pass){
+                            return Math.round(((mcq+cq+pt)*0.8)+incourse);
+                        }else{
+                            return 0;
+                        }
+                        //total = mcq_cq_pt+incourse;
+                        //return total;
                     }else{
                         swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" PT <= "+pt_mark,"error");
                     }
@@ -298,6 +316,12 @@
         if(total <= total_mark){
             //alert(mark_system);
             if(mark_system == 5){
+                if(total_mark <= 50){
+                    total = total*2;
+                }else{
+                    total = total;
+                }
+
                 if(total >= 79.50 && total <= 100){
                     gpa = '5.00';
                 }else if(total >= 69.50 && total < 79.50){
@@ -325,6 +349,12 @@
         if(total <= total_mark){
             //alert(mark_system);
             if(mark_system == 5){
+                if(total_mark <= 50){
+                    total = total*2;
+                }else{
+                    total = total;
+                }
+
                 if(total >= 79.50 && total <= 100){
                     gpa = 'A+';
                 }else if(total >= 69.50 && total < 79.50){
@@ -338,7 +368,7 @@
                 }else if(total >= 32.50 && total < 39.50){
                     gpa = 'D';
                 }else{
-                    gpa = '0.00';
+                    gpa = 'F';
                 }
                 return gpa;
             }

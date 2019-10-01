@@ -13,7 +13,7 @@
         </div>
         <div class="card-body">
 
-            <form action="/admin/update" method="post">
+            <form action="{{url('/admin/update')}}" method="post">
                 @csrf
                 <div class="row form-group">
                     <div class="col-md-1">

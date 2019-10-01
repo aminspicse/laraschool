@@ -8,11 +8,11 @@
     <div class="card container">
         <div class=" row card-header">
             <div class="col-md-5"><h1>Create New Subject</h1></div>
-            <div class="col-md-5"><h3><a href="/subject">Back</a></h3></div>
+            <div class="col-md-5"><h3><a href="{{url('/subject')}}">Back</a></h3></div>
         </div>
         <div class="card-body">
 
-            <form action="/subject/store" method="post">
+            <form action="{{url('/subject/store')}}" method="post">
                 @csrf
                 <div class="row form-group">
                     <div class="col-md-2">
@@ -99,8 +99,8 @@
                     <div class="col-md-2"><label for="">Mark System</label></div>
                     <div class="col-md-1">
                         <select name="mark_system" id="" class="form-control">
-                            <option value="gpa">GPA</option>
-                            <option value="cgpa">CGPA</option>
+                            <option value="5">GPA</option>
+                            <option value="4">CGPA</option>
                         </select>
                     </div>
 

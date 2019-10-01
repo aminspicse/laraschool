@@ -48,6 +48,10 @@ class Mst_AdminController extends Controller
      */
     public function store(Request $request)
     {
+        request()->validate([
+            'email' => 'required|unique:users',
+            'password' => 'required'
+        ]);
         User::create([
             'user_name' => $_POST['user_name'],
             'email' => $_POST['email'],

@@ -13,14 +13,14 @@
         </div>
         <div class="card-body">
 
-            <form action="/admin/store" method="post">
+            <form action="{{url('/admin/store')}}" method="post">
                 @csrf
                 <div class="row form-group">
                     <div class="col-md-1">
                         <label for="">User Name</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" name="user_name" class="form-control">
+                        <input type="text" name="user_name" value="{{old('user_name')}}" class="form-control">
                     </div>
                     <div class="col-md-1">
                         <label for="">Use Role</label>
@@ -39,7 +39,7 @@
                         <label for="">Email</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" name="email" class="form-control">
+                        <input type="text" name="email" value="{{old('email')}}" class="form-control">
                     </div>
                     <div class="col-md-1">
                         <label for="">Auth Code</label>
@@ -97,5 +97,13 @@
             </form>
         </div>
     </div>
-
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 @endsection

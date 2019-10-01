@@ -19,6 +19,7 @@ class Tests extends Migration
             $table->string('class_id');
             $table->string('semester_id');
             $table->string('auth_code');
+            $table->string('year_id');
             $table->string('subject_id');
             $table->string('mcq')->nullable();
             $table->string('cq')->nullable();

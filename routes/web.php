@@ -51,9 +51,20 @@ Route::post('/department/update/{id}','Mst_DepartmentController@update');
 Route::get('/class','Mst_ClassnameController@index');
 
 // mst_subject controller
-Route::get('subject','Mst_SubjectController@index');
-Route::get('subject/create','Mst_SubjectController@create');
-Route::post('subject/store','Mst_SubjectController@store');
+Route::get('/subject','Mst_SubjectController@index');
+Route::get('/subject/create','Mst_SubjectController@create');
+Route::post('/subject/store','Mst_SubjectController@store');
+
+//setting controller
+Route::get('/setting','SettingController@index');
+Route::post('/setting/store','SettingController@store');
+Route::post('/setting/update/{id}','SettingController@update');
+//Route::post('/setting/update/{{$id}}','SettingController@update');
+
+//Admission Controller\
+Route::get('dropdownlist/getstates/{id}','AdmissionController@getStates');
+Route::get('admission/new','AdmissionController@create');
+
 
 /// Testcontroller
 Route::get('/create','TestController@create');

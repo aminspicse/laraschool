@@ -24,15 +24,26 @@ class TestController extends Controller
      */
     public function create()
     {
+        $setting = DB::table('mst_settings as a')
+                    ->leftJoin('mst_classnames as b','a.class_id','=','b.class_id')
+                    ->leftJoin('mst_semesters as c','a.semester_id','=','c.semester_id')
+                    ->where([['a.user_id',Auth::user()->id],['a.auth_code',Auth::user()->auth_code]])
+                    ->select('a.*','b.class_name','c.semester_name')
+                    ->first();
+        //return $setting->class_id.$setting->class_name;
         $class = DB::table('mst_classnames')
                 ->where('auth_code',Auth::user()->auth_code)
                 ->get();
         $semester = DB::table('mst_semesters')
                     ->where('auth_code',Auth::user()->auth_code)
                     ->get();
-        $subject = DB::table('mst_subjects')->where('auth_code',456)->get();
+        $year = DB::table('mst_years')->orderBy('year_id','desc')->get();
 
-        return view('test.create',compact('subject','class','semester'));
+        $subject = DB::table('mst_subjects')
+                    ->where([['auth_code',Auth::user()->auth_code],['class_id',$setting->class_id]])
+                    ->get();
+
+        return view('test.create',compact('subject','class','semester','setting','year'));
     }
 
     /**
@@ -44,10 +55,16 @@ class TestController extends Controller
     public function store(Request $request)
     {
         $check = DB::table('tests')
-                ->where([['student_id',$request->input('student_id')],['class_id',$request->input('class_id')],['semester_id',$request->input('semester_id')]])->count();
-        if($check == 0)
-        {
-            $rows = $request->input('row');
+                ->where([
+                    ['student_id',$request->input('student_id')],
+                    ['class_id',$request->input('class_id')],
+                    ['semester_id',$request->input('semester_id')],
+                    ['year_id',$request->input('year_id')]])
+                ->get();
+        $count = $check->count();
+        $rows = $request->input('row');
+        if($count == 0)
+        { 
             foreach($rows as $in)
             {
                 $test[] = [
@@ -55,11 +72,12 @@ class TestController extends Controller
                     'class_id' => $request->input('class_id'),
                     'semester_id' => $request->input('semester_id'),
                     'auth_code' => Auth::user()->auth_code,
+                    'year_id'   => $request->input('year_id'),
                     'subject_id' => $in['subject_id'],
                     'user_id' => Auth::user()->id,
                     'mcq' => $in['mcq'],
                     'cq' => $in['cq'],
-                    'total' => $this->total($in['mcq'],$in['cq']),
+                    'total' => $in['total'],
                     'gpa'   => $in['gpa'],
                     'grade' => $in['grade']
                 ];
@@ -70,7 +88,36 @@ class TestController extends Controller
         }
         else
         {
-            return redirect('/create')->with('delete','Already Entired Mark this Student');
+            //return redirect('/create')->with('delete','Already Entired Mark this Student');
+            $rows = $request->input('row');
+           
+            foreach($rows as $in){
+                $where =[
+                    ['student_id',$request->input('student_id')],
+                    ['class_id',$request->input('class_id')],
+                    ['semester_id',$request->input('semester_id')],
+                    ['subject_id',$in['subject_id']],
+                    ['year_id',$request->input('year_id')]];
+
+                $test = [
+                //'student_id' => $request->input('student_id'),
+                //'class_id' => $request->input('class_id'),
+                //'semester_id' => $request->input('semester_id'),
+                //'auth_code' => Auth::user()->auth_code,
+                ////'year_id'   => $request->input('year_id'),
+                //'subject_id' => $in['subject_id'],
+                'user_id' => Auth::user()->id,
+                'mcq' => $in['mcq'],
+                'cq' => $in['cq'],
+                'total' => $in['total'],
+                'gpa'   => $in['gpa'],
+                'grade' => $in['grade']
+                ];
+
+                DB::table('tests')->where($where)->update($test);
+            }
+            //DB::table('tests')->where($where)->update($test);
+            return redirect('/create')->with('update','Mark Updated Successfull');
         }
     }
 

@@ -11,26 +11,26 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="{{ asset('template/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('public/template/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
   
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ asset('template/bower_components/font-awesome/css/font-awesome.min.css')}}">
+  <link rel="stylesheet" href="{{ url('public/template/bower_components/font-awesome/css/font-awesome.min.css')}}">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="{{ asset('template/bower_components/Ionicons/css/ionicons.min.css')}}">
+  <link rel="stylesheet" href="{{ url('public/template/bower_components/Ionicons/css/ionicons.min.css')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('template/dist/css/AdminLTE.min.css')}}">
+  <link rel="stylesheet" href="{{ url('public/template/dist/css/AdminLTE.min.css')}}">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="{{ asset('template/dist/css/skins/_all-skins.min.css')}}">
+  <link rel="stylesheet" href="{{ url('public/template/dist/css/skins/_all-skins.min.css')}}">
   <!-- Morris chart -->
-  <link rel="stylesheet" href="{{asset('bower_components/morris.js/morris.css')}}">
+  <link rel="stylesheet" href="{{url('public/bower_components/morris.js/morris.css')}}">
   <!-- jvectormap -->
-  <link rel="stylesheet" href="{{asset('bower_components/jvectormap/jquery-jvectormap.css')}}">
+  <link rel="stylesheet" href="{{url('public/bower_components/jvectormap/jquery-jvectormap.css')}}">
   <!-- Date Picker -->
-  <link rel="stylesheet" href="{{asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+  <link rel="stylesheet" href="{{url('public/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
   <!-- Daterange picker -->
-  <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
+  <link rel="stylesheet" href="{{url('public/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
+  <link rel="stylesheet" href="{{ url('public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -49,7 +49,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="{{url('home')}}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>B</b>S</span>
       <!-- logo for regular state and mobile devices -->
@@ -81,7 +81,7 @@
                   <li><!-- start message -->
                     <a href="#">
                       <div class="pull-left">
-                        <img src="{{ asset('template/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
+                        <img src="{{ url('public/template/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Support Team
@@ -152,13 +152,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{ asset('template/dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
+              <img src="{{ url('public/template/dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{Auth::user()->user_name}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="{{ asset('template/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
+                <img src="{{ url('public/template/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
 
                 <p>
                   {{Auth::user()->user_name}} - Teacher
@@ -169,10 +169,10 @@
               <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">
-                    <a href="/admin/edit">Update Profile</a>
+                    <a href="{{url('/admin/edit')}}">Update Profile</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
+                    <a href="{{url('/setting')}}">Setting</a>
                   </div>
                   <div class="col-xs-4 text-center">
                     <a href="#">Friends</a>
@@ -217,7 +217,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{ asset('template/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
+          <img src="{{ url('public/template/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>{{Auth::user()->user_name}}</p>
@@ -247,12 +247,23 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/admin/list"><i class="fa fa-circle-o"></i>Admins</a></li>
-            <li><a href="/semester"><i class="fa fa-circle-o"></i>Semester</a></li>
-            <li><a href="/year"><i class="fa fa-circle-o"></i>Year</a></li>
-            <li><a href="/department"><i class="fa fa-circle-o"></i>Department</a></li>
-            <li><a href="/class"><i class="fa fa-circle-o"></i>Class</a></li>
-            <li><a href="/subject"><i class="fa fa-circle-o"></i>Subject</a></li>
+            <li><a href="{{url('/admin/list')}}"><i class="fa fa-circle-o"></i>Admins</a></li>
+            <li><a href="{{url('/semester')}}"><i class="fa fa-circle-o"></i>Semester</a></li>
+            <li><a href="{{url('/year')}}"><i class="fa fa-circle-o"></i>Year</a></li>
+            <li><a href="{{url('/department')}}"><i class="fa fa-circle-o"></i>Department</a></li>
+            <li><a href="{{url('/class')}}"><i class="fa fa-circle-o"></i>Class</a></li>
+            <li><a href="{{url('/subject')}}"><i class="fa fa-circle-o"></i>Subject</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Admission</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/admission/new')}}"><i class="fa fa-circle-o"></i>New Admission</a></li>
           </ul>
         </li>
         @endif
@@ -407,7 +418,7 @@
             <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
           </ul>
         </li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+        <li><a href=""><i class="fa fa-book"></i> <span>Documentation</span></a></li>
         <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
@@ -422,7 +433,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     
-  <div class="container row">
+  <div class="container row" style="">
     @if(Session::has('delete'))
       <h2 class="alert alert-danger text-center">{{Session::get('delete')}}</h2>
     @endif
@@ -652,41 +663,41 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- jQuery 3 -->
-<script src="{{asset('template/bower_components/jquery/dist/jquery.min.js')}}"></script>
+<script src="{{url('public/template/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="{{asset('template/bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
+<script src="{{url('public/template/bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.7 -->
-<script src="{{asset('template/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+<script src="{{url('public/template/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <!-- Morris.js charts -->
-<script src="{{asset('template/bower_components/raphael/raphael.min.js')}}"></script>
-<script src="{{asset('template/bower_components/morris.js/morris.min.js')}}"></script>
+<script src="{{url('public/template/bower_components/raphael/raphael.min.js')}}"></script>
+<script src="{{url('public/template/bower_components/morris.js/morris.min.js')}}"></script>
 <!-- Sparkline -->
-<script src="{{asset('template/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>
+<script src="{{url('public/template/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>
 <!-- jvectormap -->
-<script src="{{asset('template/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>
-<script src="{{asset('template/plugins/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
+<script src="{{url('public/template/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js')}}"></script>
+<script src="{{url('public/template/plugins/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
 <!-- jQuery Knob Chart -->
-<script src="{{asset('template/bower_components/jquery-knob/dist/jquery.knob.min.js')}}"></script>
+<script src="{{url('public/template/bower_components/jquery-knob/dist/jquery.knob.min.js')}}"></script>
 <!-- daterangepicker -->
-<script src="{{asset('template/bower_components/moment/min/moment.min.js')}}"></script>
-<script src="{{asset('template/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{url('template/bower_components/moment/min/moment.min.js')}}"></script>
+<script src="{{url('template/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <!-- datepicker -->
-<script src="{{asset('template/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{url('public/template/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 <!-- Bootstrap WYSIHTML5 -->
-<script src="{{asset('template/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
+<script src="{{url('public/template/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
 <!-- Slimscroll -->
-<script src="{{asset('template/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+<script src="{{url('public/template/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
 <!-- FastClick -->
-<script src="{{asset('template/bower_components/fastclick/lib/fastclick.js')}}"></script>
+<script src="{{url('public/template/bower_components/fastclick/lib/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('template/dist/js/adminlte.min.js')}}"></script>
+<script src="{{url('public/template/dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{asset('template/dist/js/pages/dashboard.js')}}"></script>
+<script src="{{url('public/template/dist/js/pages/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{asset('template/dist/js/demo.js')}}"></script>
+<script src="{{url('public/template/dist/js/demo.js')}}"></script>
 </body>
 </html>

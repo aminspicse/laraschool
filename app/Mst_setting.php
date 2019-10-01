@@ -1,0 +1,17 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Mst_setting extends Model
+{
+    protected $fillable = [
+        'user_id','auth_code','class_id','semester_id','year_id'
+    ];
+
+    public function getclass()
+    {
+        
+    }
+}

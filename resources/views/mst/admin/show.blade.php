@@ -11,7 +11,7 @@
     <div class="container row">
         <div class="col-md-5"><h2>View User Data</h2></div>
         
-        <div class="col-md-2"><h2><a href="/admin/list">Back</a></h2></div>
+        <div class="col-md-2"><h2><a href="{{url('/admin/list')}}">Back</a></h2></div>
     </div>
     <table class="table" style="font-size:20px">
         <tr>

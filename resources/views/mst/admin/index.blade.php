@@ -9,7 +9,7 @@
     
     <div class="row container">
         <div class="col-md-5"><h2>User List</h2></div>
-        <div class="col-md-5"><h3><a href="/admin/create">Create New User</a></h3></div>
+        <div class="col-md-5"><h3><a href="{{url('/admin/create')}}">Create New User</a></h3></div>
     </div>
     <table class="table table-striped">
         <tr>
@@ -31,9 +31,9 @@
             <td>{{$data->email}}</td>
             <td>{{$data->inst_address}}</td>
             <td>
-                <a href="/admin/show/{{$data->id}}" class="btn btn-info">View</a>
+                <a href="{{url('/admin/show/')}}/{{$data->id}}" class="btn btn-info">View</a>
                 <a href="" disabled class="btn btn-success">Edit</a>
-                <a href="/admin/delete/{{$data->id}}" class="btn btn-danger">Inactive</a>
+                <a href="{{url('/admin/delete/')}}/{{$data->id}}" class="btn btn-danger">Inactive</a>
             </td>
         </tr>
         @endforeach

@@ -9,7 +9,7 @@
     
     <div class="row container">
         <div class="col-md-5"><h2>Subject List</h2></div>
-        <div class="col-md-5"><h3><a href="/subject/create">Create New Subject</a></h3></div>
+        <div class="col-md-5"><h3><a href="{{url('/subject/create')}}">Create New Subject</a></h3></div>
     </div>
     <table class="table table-striped">
         <tr>
