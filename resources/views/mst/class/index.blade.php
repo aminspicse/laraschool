@@ -21,7 +21,7 @@
             <th>Action</th>
         </tr>
         <?php $i=1;?>
-        @foreach($data as $data)
+        @foreach($class as $data)
         <tr>
             <td>{{$i++}}</td>
             <td>{{$data->class_id}}</td>

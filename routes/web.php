@@ -61,11 +61,18 @@ Route::post('/setting/store','SettingController@store');
 Route::post('/setting/update/{id}','SettingController@update');
 //Route::post('/setting/update/{{$id}}','SettingController@update');
 
-//Admission Controller\
-Route::get('dropdownlist/getstates/{id}','AdmissionController@getStates');
+//Admission Controller
+Route::get('admission','AdmissionController@index');
 Route::get('admission/new','AdmissionController@create');
+Route::post('admission/store','AdmissionController@store');
+Route::get('admission/view/{id}','AdmissionController@show');
+Route::get('admission/edit/{id}','AdmissionController@edit');
 
 
 /// Testcontroller
 Route::get('/create','TestController@create');
 Route::post('/store','TestController@store');
+
+// uploadcontroller just for test
+Route::get('upload','UploadTest@index');
+Route::post('upload/store','UploadTest@store');

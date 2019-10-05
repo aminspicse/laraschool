@@ -18,6 +18,7 @@ class MstSubject extends Migration
             $table->string('user_id');
             $table->string('auth_code');
             $table->string('class_id');
+            $table->string('department_id');
             $table->string('subject_code');
             $table->string('subject_name');
             $table->integer('incourse')->default('0');

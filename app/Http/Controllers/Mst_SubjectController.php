@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Mst_subject;
+use App\GetData;
 class Mst_SubjectController extends Controller
 {
     public function __construct()
@@ -35,8 +36,11 @@ class Mst_SubjectController extends Controller
      */
     public function create()
     {
-        $class = DB::table('mst_classnames')->orderby('class_id','asc')->get();
-        return view('mst.subject.create',compact('class'));
+        $get = new GetData();
+        $qry['class'] = $get->get_class();
+        $qry['department'] = $get->get_department();
+        $qry['setting'] = $get->get_setting();
+        return view('mst.subject.create',$qry);
     }
 
     /**
@@ -56,6 +60,7 @@ class Mst_SubjectController extends Controller
             'user_id' => Auth::user()->id,
             'auth_code' => Auth::user()->auth_code,
             'class_id'      => request('class_id'),
+            'department_id' => request('department_id'),
             'subject_name' => request('subject_name'),
             'subject_code' => request('subject_code'),
             'incourse' => request('incourse'),

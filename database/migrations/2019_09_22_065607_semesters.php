@@ -19,6 +19,7 @@ class Semesters extends Migration
             $table->string('auth_code');
             $table->string('user_id');
             $table->string('updated_by')->nullable();
+            $table->string('semester_status')->default(1);
             $table->timestamps();
         });
     }

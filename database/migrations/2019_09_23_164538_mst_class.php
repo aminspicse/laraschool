@@ -18,6 +18,7 @@ class MstClass extends Migration
             $table->string('class_name');
             $table->string('user_id');
             $table->string('auth_code');
+            $table->string('class_status')->default('1')->comment('1 is active 0 is inactive');
             $table->string('update_by');
             $table->timestamps();
         });

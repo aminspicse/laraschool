@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mst_classname;
+use App\GetData;
 class Mst_ClassnameController extends Controller
 {
     /**
@@ -13,8 +14,9 @@ class Mst_ClassnameController extends Controller
      */
     public function index()
     {
-        $data = Mst_classname::all();
-        return view('mst.class.index',compact('data'));
+        $get = new GetData();
+        $qry['class'] = $get->get_class();
+        return view('mst.class.index',$qry);
     }
 
     /**

@@ -36,8 +36,22 @@
                     </div>
                     <div class="col-md-5">
                         <select name="class_id" id="" class="form-control">
+                            <option value="{{$setting->class_id}}">{{$setting->class_name}}</option>
                             @foreach($class as $class)
                                 <option value="{{$class->class_id}}">{{$class->class_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="">Department <span class="text-danger">*</span></label>
+                    </div>
+                    <div class="col-md-5">
+                        <select name="department_id" id="" class="form-control">
+                            <option value="{{$setting->department_id}}">{{$setting->department_name}}</option>
+                            @foreach($department as $dept)
+                                <option value="{{$dept->department_id}}">{{$dept->department_name}}</option>
                             @endforeach
                         </select>
                     </div>

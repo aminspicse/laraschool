@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mst_subject extends Model
 {
-    // mst_subjects table 
+    // mst_subjects table  
     protected $fillable = [
         'auth_code',
         'user_id',
         'class_id',
+        'department_id',
         'subject_name',
         'subject_code',
         'incourse',

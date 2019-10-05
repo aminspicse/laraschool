@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Mst_setting extends Model
 {
     protected $fillable = [
-        'user_id','auth_code','class_id','semester_id','year_id'
+        'user_id',
+        'auth_code',
+        'class_id',
+        'department_id',
+        'semester_id',
+        'year_id'
     ];
 
     public function getclass()

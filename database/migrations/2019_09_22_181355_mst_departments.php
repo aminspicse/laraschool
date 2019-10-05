@@ -19,6 +19,7 @@ class MstDepartments extends Migration
             $table->string('auth_code');
             $table->string('department_name');
             $table->string('description')->nullable();
+            $table->string('departments')->default(1)->comment('1 is active 0 is inactive');
             $table->timestamps();
         });
     }

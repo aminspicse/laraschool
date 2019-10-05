@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Test;
+use App\GetData;
 class TestController extends Controller
 {
     /**
@@ -24,26 +25,17 @@ class TestController extends Controller
      */
     public function create()
     {
-        $setting = DB::table('mst_settings as a')
-                    ->leftJoin('mst_classnames as b','a.class_id','=','b.class_id')
-                    ->leftJoin('mst_semesters as c','a.semester_id','=','c.semester_id')
-                    ->where([['a.user_id',Auth::user()->id],['a.auth_code',Auth::user()->auth_code]])
-                    ->select('a.*','b.class_name','c.semester_name')
-                    ->first();
-        //return $setting->class_id.$setting->class_name;
-        $class = DB::table('mst_classnames')
-                ->where('auth_code',Auth::user()->auth_code)
-                ->get();
-        $semester = DB::table('mst_semesters')
-                    ->where('auth_code',Auth::user()->auth_code)
-                    ->get();
-        $year = DB::table('mst_years')->orderBy('year_id','desc')->get();
+        $get                = new GetData();
+        $qry['setting']     = $get->get_setting();
+        $qry['class']       = $get->get_class();
+        $qry['semester']    = $get->get_semester();
+        $qry['year']        = $get->get_year();
 
-        $subject = DB::table('mst_subjects')
-                    ->where([['auth_code',Auth::user()->auth_code],['class_id',$setting->class_id]])
+        $qry['subject'] = DB::table('mst_subjects')
+                    ->where([['auth_code',Auth::user()->auth_code],['class_id',$qry['setting']->class_id]])
                     ->get();
-
-        return view('test.create',compact('subject','class','semester','setting','year'));
+                    
+        return view('test.create',$qry);
     }
 
     /**

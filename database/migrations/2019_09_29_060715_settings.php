@@ -19,6 +19,7 @@ class Settings extends Migration
             $table->string('auth_code');
             $table->string('class_id')->nullable();
             $table->string('semester_id')->nullable();
+            $table->string('department_id')->nullable();
             $table->string('year_id')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
