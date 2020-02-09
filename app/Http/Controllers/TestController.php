@@ -30,9 +30,12 @@ class TestController extends Controller
         $qry['class']       = $get->get_class();
         $qry['semester']    = $get->get_semester();
         $qry['year']        = $get->get_year();
-
+        $qry['department']  = $get->get_department();
         $qry['subject'] = DB::table('mst_subjects')
-                    ->where([['auth_code',Auth::user()->auth_code],['class_id',$qry['setting']->class_id]])
+                    ->where([
+                        ['auth_code',Auth::user()->auth_code],
+                        ['class_id',$qry['setting']->class_id],
+                        ['department_id',$qry['setting']->department_id]])
                     ->get();
                     
         return view('test.create',$qry);

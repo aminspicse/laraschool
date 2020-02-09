@@ -7,7 +7,7 @@
     <div class="row">
         <h3 class="text-info text-center">
         Marks Entry <b>{{$setting->semester_name}}</b> Examination <b>{{$setting->year_id}}</b>
-        Class: <b>{{$setting->class_name}}</b></h3>
+        Class: <b>{{$setting->class_name}}</b> Department: <b>{{$setting->department_name}}</b></h3>
     </div>
     <div class="row">
         <div class="col-md-1">
@@ -264,8 +264,16 @@
             </div>
         </div>
         <?php $i++?>
+        
     @endforeach
-
+      <!--  <div class="row">
+            <div class="col-md-1 col-md-offset-7">
+                <input type="text"
+                class="form-control"
+                >
+            </div>
+        </div>
+        -->
     <div class="row"><button class="btn btn-success">Save</button></div>
 </form>
 
@@ -376,5 +384,6 @@
             swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" Total <= "+total_mark,"error");
         }
     }
+    
 </script>
 @endsection

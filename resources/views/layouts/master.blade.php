@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>@yield('title')</title>
+  <title>@yield('title');</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -227,9 +227,10 @@
         </div>
       </div>
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
+      <form action="{{url('admission/view')}}/" method="get" class="sidebar-form">
+        
         <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
+          <input type="text" name="student" class="form-control" placeholder="Search...">
               <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
@@ -249,7 +250,18 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('/admin/list')}}"><i class="fa fa-circle-o"></i>Admins</a></li>
+            <!-- <li><a href="#adminlist" id="admin"><i class="fa fa-circle-o"></i>Admins</a> --> 
+            <li class="treeview">
+              <a href="#"><i class="fa fa-circle-o"></i> Admin
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#adminlist" id="admin"><i class="fa fa-circle-o"></i>User List</a></li>
+                <li><a href="#createuser" id="createuser"><i class="fa fa-circle-o"></i>Create User</a></li>
+              </ul>
+            </li>
             <li><a href="{{url('/semester')}}"><i class="fa fa-circle-o"></i>Semester</a></li>
             <li><a href="{{url('/year')}}"><i class="fa fa-circle-o"></i>Year</a></li>
             <li><a href="{{url('/department')}}"><i class="fa fa-circle-o"></i>Department</a></li>
@@ -267,7 +279,22 @@
           <ul class="treeview-menu">
             <li><a href="{{url('/admission')}}"><i class="fa fa-circle-o"></i>Admission List</a></li>
             <li><a href="{{url('/admission/new')}}"><i class="fa fa-circle-o"></i>New Admission</a></li>
+            <li><a href="{{url('/admission/report')}}"><i class="fa fa-circle-o"></i>Report</a></li>
 
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Registration</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/registration')}}"><i class="fa fa-circle-o"></i>Registration List</a></li>
+            <li><a href="#newreg" id="newreg"><i class="fa fa-circle-o"></i>New Registration</a></li>
+            <li><a href="{{url('/admission/report')}}"><i class="fa fa-circle-o"></i>Report</a></li>
           </ul>
         </li>
         @endif
@@ -435,8 +462,8 @@
   <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    
+  <div class="content-wrapper" id="content_warper">
+  <div id="wait" style="display:none;width:69px;height:89px;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;"><img src='{{url("public/image/loading.gif")}}' width="300px" height="300px" /><br>Loading..</div>
   <div class="container row" style="">
     @if(Session::has('delete'))
       <h2 class="alert alert-danger text-center">{{Session::get('delete')}}</h2>
@@ -707,6 +734,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{url('public/template/dist/js/demo.js')}}"></script>
 
+
 <script>
   $(function () {
     $('#example1').DataTable()
@@ -719,8 +747,24 @@
       'autoWidth'   : false
     });
   });
-</script>
 
+</script>
+<script>
+  $(document).ready(function(){
+		  $("#newreg").click(function(){
+        $("#wait").css("display", "block");
+			  $("#content_warper").load("{{url('/registration/new')}}");
+		  });
+		  $("#admin").click(function(){
+        $("#wait").css("display", "block");
+			  $("#content_warper").load("{{url('/admin/list')}}");
+		  });
+      $("#createuser").click(function(){
+        $("#wait").css("display", "block");
+			  $("#content_warper").load("{{url('/admin/create')}}");
+		  });
+		});
+</script>
 
 </body>
 </html>

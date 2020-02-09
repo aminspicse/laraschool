@@ -1,15 +1,7 @@
-@extends('layouts.master')
-
-
-@section('title')
-    Create New Admin
-@endsection
-
-@section('content')
 
     <div class="card container">
         <div class="card-header">
-            <h1>Create New Admin</h1>
+            <h1>Create New User</h1>
         </div>
         <div class="card-body">
 
@@ -23,7 +15,7 @@
                         <input type="text" name="user_name" value="{{old('user_name')}}" class="form-control">
                     </div>
                     <div class="col-md-1">
-                        <label for="">Use Role</label>
+                        <label for="">User Role</label>
                     </div>
                     <div class="col-md-3">
                         <select name="role_id" id="" class="form-control">
@@ -41,12 +33,13 @@
                     <div class="col-md-3">
                         <input type="text" name="email" value="{{old('email')}}" class="form-control">
                     </div>
-                    <div class="col-md-1">
+                   <!-- <div class="col-md-1">
                         <label for="">Auth Code</label>
                     </div>
                     <div class="col-md-5">
                         <input type="text" name="auth_code" value="{{ Auth::user()->auth_code}}"  class="form-control">
                     </div>
+                    -->
                 </div>
                 <div class="row form-group">
                     <div class="col-md-1">
@@ -106,4 +99,3 @@
             </ul>
         </div>
     @endif
-@endsection

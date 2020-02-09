@@ -8,7 +8,7 @@
 @section('content')
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title">Data Table of Admitted Student</h3>
+            <h3 class="box-title">Data Table of Admitted Student <a href="{{url('admission/downloadall')}}">Generate Report</a></h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
@@ -36,9 +36,18 @@
                             <td>{{$student->admission_year}}</td>
                             <td><img src="{{url('public/storage')}}/{{$student->student_photo}}" width="50px" height="30px" alt=""></td>
                             <td>
-                                <a href="{{url('admission/view')}}/{{$student->student_id}}" class="btn btn-info">View</a>
-                                <a href="{{url('admission/edit')}}/{{$student->student_id}}" class="btn btn-warning">Edit</a>
-                                <a href="" class="btn btn-light">Download</a>
+                                <a href="{{url('admission/view')}}/{{$student->student_id}}" 
+                                    class="btn btn-info" title="View">
+                                    <span class="fa fa-eye"></span>
+                                </a>
+                                <a href="{{url('admission/edit')}}/{{$student->student_id}}" 
+                                    class="btn btn-warning" title="Edit">
+                                    <span class="fa fa-edit"></span>    
+                                </a>
+                                <a href="{{url('admission/downloadstudent')}}/{{$student->student_id}}" 
+                                class="btn btn-success" title="Download">
+                                    <span class="fa fa-cloud-download"></span>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

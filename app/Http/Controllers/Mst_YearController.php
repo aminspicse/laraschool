@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Year;
+use App\Mst_year;
+use App\GetData;
 class Mst_YearController extends Controller
 {
     public function __construct()
@@ -18,7 +19,7 @@ class Mst_YearController extends Controller
      */
     public function index()
     {
-        $data = DB::table('mst_years')->orderby('year_name','desc')->get();
+        $data = GetData::get_year();
         return view('mst.year.index',compact('data'));
     }
 
@@ -29,7 +30,7 @@ class Mst_YearController extends Controller
      */
     public function create()
     {
-        //
+        return view('mst.year.create');
     }
 
     /**
@@ -40,7 +41,14 @@ class Mst_YearController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Mst_year::create([
+            'auth_code' => Auth::user()->auth_code,
+            'user_id'   => Auth::user()->id,
+            'year_name' => request('year_name'),
+            'remarks'   => request('remarks')
+        ]);
+
+        return redirect(url('year'))->with('create','A Year created Successfully');
     }
 
     /**
@@ -86,5 +94,11 @@ class Mst_YearController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function inactive($year_id)
+    {
+        GetData::status('mst_years','year_id',$year_id,'year_status',0);
+
+        return redirect(url('year'))->with('inactive','A year has been Inactive Successfully');
     }
 }

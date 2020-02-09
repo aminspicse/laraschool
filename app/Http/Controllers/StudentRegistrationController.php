@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Mst_Semester;
+use Response;
+use DB;
 use App\GetData;
-class Mst_SemesterController extends Controller
+use App\StudentRegistration;
+class StudentRegistrationController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +16,12 @@ class Mst_SemesterController extends Controller
      */
     public function index()
     {
-        $data = GetData::get_semester();
-        return view('mst.semester.index',compact('data'));
+        $year =GetData::get_setting();
+        //$year->year_id;
+        $data= DB::table('student_view')
+            ->where([['registration_year',$year->year_name],['auth_code',Auth::user()->auth_code]])
+            ->get();
+        return view('registration.index',compact('data'));
     }
 
     /**
@@ -30,7 +31,15 @@ class Mst_SemesterController extends Controller
      */
     public function create()
     {
-        return view('mst.semester.create');
+        $get = new GetData();
+        $data['class'] = $get->get_class();
+        $data['semester'] = $get->get_semester();
+        $data['department'] = $get->get_department();
+        $data['year']       = $get->get_year();
+        $data['setting'] = $get->get_setting();
+
+
+        return view('registration.create',$data);
     }
 
     /**
@@ -41,16 +50,20 @@ class Mst_SemesterController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'semseter_name' => 'required'
-        ]);
-
-        $data = new Mst_Semester();
-        $data->semester_name = request('semseter_name');
-        $data->auth_code = Auth::user()->auth_code;
-        $data->user_id = Auth::user()->id;
-        $data->save();
-        return redirect('/semester')->with('create','A Semester Created');
+            $data = new StudentRegistration();
+            $data->student_id = request("student_id");
+            $data->class_id = request("class_id");
+            $data->semester_id = request("semester_id");
+            $data->department_id = request("department_id");
+            $data->year_id = request("year_id");
+            $data->registration_date = request("registration_date");
+            $data->auth_code = Auth::user()->auth_code;
+            $data->user_id = Auth::user()->id;
+            $data->save();
+            $data['success'] = "Successfully Saved Data";
+       
+            
+        return Response::json($data);
     }
 
     /**
@@ -85,7 +98,7 @@ class Mst_SemesterController extends Controller
     public function update(Request $request, $id)
     {
         //
-    }
+    } 
 
     /**
      * Remove the specified resource from storage.
@@ -95,10 +108,6 @@ class Mst_SemesterController extends Controller
      */
     public function destroy($id)
     {
-        $data = DB::table('mst_semesters')
-                ->where([['semester_id',$id],['auth_code',Auth::user()->auth_code]])
-                ->update(['semester_status'=>'0','updated_by'=>Auth::user()->id]);
-               // return $data;
-        return redirect('/semester')->with('inactive','A Semester Inactive Successfully');
+        //
     }
 }

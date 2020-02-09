@@ -16,8 +16,13 @@
             </div>
         @endif
         <div class="card-body">
-            <div class="row" ><h3 style="margin-top:0px" class="text-danger">New Student Admission</h3></div>
-            <form action="{{url('/admission/update')}}" method="post" enctype="multipart/form-data">
+            <div class="row" >
+                <div class="col-md-6"><h3 style="margin-top:0px" class="text-danger">Edit Student Admission</h3></div>
+                <div class="col-md-1"><h4><a href="{{url('admission/')}}">Back</a></h4></div>
+                <div class="col-md-2"><h4><a href="{{url('admission/new')}}">New Admission</a></h4></div>
+
+            </div>
+            <form action="{{url('/admission/update')}}/{{$qry->student_id}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row form-group">
                     <div class="col-md-4 thumbnail bg-info">
@@ -59,6 +64,7 @@
                         <input type="date" name="admissiondate" value="{{$qry->admission_date}}" class="form-control" placeholder="Admission Date">
 
                     </div>
+                <!--
                     <div class="col-md-4 thumbnail">
                         <p><b>Present Address</b></p>
                         <label for="">Country</label>
@@ -91,7 +97,7 @@
                         </select>
                         <label for="">Union</label>
                         <select name="union_id" id="" class="form-control">
-                            <option value="{{$qry->union_name}}">{{$qry->union_name}}</option>
+                            <option value="{{$qry->union_id}}">{{$qry->union_name}}</option>
                             @foreach($union as $un)
                                 <option value="{{$un->union_id}}">{{$un->union_name}} ({{$un->local_name}})</option>
                             @endforeach
@@ -100,9 +106,10 @@
                         <input type="text" name="post_office" value="{{$qry->post_office}}" class="form-control" placeholder="Post and Road">
                         <label for="">Permanent Address</label>
                         <textarea name="permanent_address" id="" cols="30" rows="2" placeholder="Permanent Address" class="form-control">{{$qry->permanent_address}}</textarea>
-                        <button class="btn btn-info">Update</button>
+                        
                     </div>
-                    <div class="col-md-3">
+                -->
+                    <div class="col-md-4 thumbnail">
                         <p><b>Previous Educational Info</b> (if any)</p>
                         <textarea name="previous_education_info" id="" cols="30" rows="2" placeholder="Previous Educational Info" class="form-control">{{$qry->previous_education}}</textarea>
                         <p><u>Admission Info</u></p>
@@ -127,7 +134,7 @@
                                 <option value="{{$year->year_id}}">{{$year->year_name}}</option>
                             @endforeach
                         </select>
-                        
+                        <button class="btn btn-info">Update</button>
                     </div>
                 </div>
             </form>

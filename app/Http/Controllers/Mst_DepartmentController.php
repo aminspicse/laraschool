@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Mst_department;
+use App\GetData;
 class Mst_DepartmentController extends Controller
 {
     /**
@@ -14,9 +15,7 @@ class Mst_DepartmentController extends Controller
      */
     public function index()
     {
-        $data = DB::table('mst_departments')
-                ->where('auth_code',Auth::user()->auth_code)
-                ->get();
+        $data = GetData::get_department();
         return view('mst.department.index',compact('data'));
     }
 
@@ -111,5 +110,11 @@ class Mst_DepartmentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function inactive($department_id)
+    {
+        GetData::status('mst_departments','department_id',$department_id,'department_status',0);
+        return redirect(url('department'))->with('inactive','A Department Successfully Inactive');
     }
 }

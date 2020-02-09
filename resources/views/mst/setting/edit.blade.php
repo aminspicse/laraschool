@@ -59,9 +59,9 @@
                     </div>
                     <div class="col-md-3">
                         <select name="year_id" id="" class="form-control">
-                            <option value="{{$setting->year_id}}">{{$setting->year_id}}</option>
+                            <option value="{{$setting->year_id}}">{{$setting->year_name}}</option>
                             @foreach($year as $year)
-                                <option value="{{$year->year_id}}">{{$year->year_id}}</option>
+                                <option value="{{$year->year_id}}">{{$year->year_name}}</option>
                             @endforeach
                         </select>
                     </div>

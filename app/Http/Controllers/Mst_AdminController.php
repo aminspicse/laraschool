@@ -60,7 +60,7 @@ class Mst_AdminController extends Controller
             'inst_name' => $_POST['inst_name'],
             'inst_code' => $_POST['inst_code'],
             'inst_ein' => $_POST['inst_ein'],
-            'auth_code' => $_POST['auth_code'],
+            'auth_code' => Auth::user()->auth_code,
         ]);
         return redirect('admin/list')->with('create','A New User Created Successfully');
     }

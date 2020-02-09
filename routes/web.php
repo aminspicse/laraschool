@@ -39,6 +39,9 @@ Route::get('/semester/delete/{id}','Mst_SemesterController@destroy');
 
 //year controller
 Route::get('/year','Mst_YearController@index');
+Route::get('/year/create','Mst_YearController@create');
+Route::post('/year/store','Mst_YearController@store');
+Route::get('/year/inactive/{year_id}','Mst_YearController@inactive');
 
 //Department
 Route::get('/department','Mst_DepartmentController@index');
@@ -46,14 +49,19 @@ Route::get('/department/create','Mst_DepartmentController@create');
 Route::post('/department/store','Mst_DepartmentController@store');
 Route::get('/department/edit/{id}','Mst_DepartmentController@edit');
 Route::post('/department/update/{id}','Mst_DepartmentController@update');
+Route::get('/department/inactive/{id}','Mst_DepartmentController@inactive');
 
 //mst_class controller
 Route::get('/class','Mst_ClassnameController@index');
+Route::get('/class/create','Mst_ClassnameController@create');
+Route::post('/class/store','Mst_ClassnameController@store');
+Route::get('/class/inactive/{class_id}','Mst_ClassnameController@destroy');
 
 // mst_subject controller
 Route::get('/subject','Mst_SubjectController@index');
 Route::get('/subject/create','Mst_SubjectController@create');
 Route::post('/subject/store','Mst_SubjectController@store');
+Route::get('/subject/inactive/{subject_id}','Mst_SubjectController@inactive');
 
 //setting controller
 Route::get('/setting','SettingController@index');
@@ -67,8 +75,15 @@ Route::get('admission/new','AdmissionController@create');
 Route::post('admission/store','AdmissionController@store');
 Route::get('admission/view/{id}','AdmissionController@show');
 Route::get('admission/edit/{id}','AdmissionController@edit');
+Route::post('admission/update/{id}','AdmissionController@update');
+Route::get('admission/downloadall','AdmissionController@downloadallstudent');
+Route::get('admission/downloadstudent/{id}','AdmissionController@downloadstudent');
 
 
+//RegistrationController
+Route::get('/registration','StudentRegistrationController@index');
+Route::get('/registration/new','StudentRegistrationController@create');
+Route::get('/registration/store','StudentRegistrationController@store');
 /// Testcontroller
 Route::get('/create','TestController@create');
 Route::post('/store','TestController@store');
@@ -76,3 +91,7 @@ Route::post('/store','TestController@store');
 // uploadcontroller just for test
 Route::get('upload','UploadTest@index');
 Route::post('upload/store','UploadTest@store');
+
+//AjaxLive Just for test controller and its resources
+Route::get('/ajax','AjaxLive@index');
+Route::get('/search','AjaxLive@search');

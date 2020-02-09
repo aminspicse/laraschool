@@ -21,10 +21,8 @@ class Mst_SubjectController extends Controller
      */
     public function index()
     {
-        $data = DB::table('mst_subjects')
-                ->where('auth_code',Auth::user()->auth_code)
-                ->orderby('subject_id','desc')
-                ->get();
+        //$data = GetData::fetch('mst_subjects','subject_status',1,'class_id','ASC');
+        $data = GetData::get_subject();
 
         return view('mst.subject.index',compact('data'));
     }
@@ -124,5 +122,11 @@ class Mst_SubjectController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function inactive($subject_id)
+    {
+        GetData::status('mst_subjects','subject_id',$subject_id,'subject_status',0);
+        return redirect(url('subject'))->with('inactive','A Subject Inactive Successfully');
     }
 }

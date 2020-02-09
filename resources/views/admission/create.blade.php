@@ -110,6 +110,12 @@
                                 <option value="{{$dept->department_id}}">{{$dept->department_name}}</option>
                             @endforeach
                         </select>
+                        <label for="">Semester</label>
+                        <select name="admission_semester" id="" class="form-control">
+                            @foreach($semester as $sem)
+                                <option value="{{$sem->semester_id}}">{{$sem->semester_name}}</option>
+                            @endforeach
+                        </select>
                         <label for="">Year</label>
                         <select name="admission_year" id="" class="form-control">
                             @foreach($year as $year)
