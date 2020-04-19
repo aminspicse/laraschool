@@ -19,6 +19,7 @@
                         <th>Class ID</th>
                         <th>Auth Code</th>
                         <th>Class Name</th>
+                        <th>GPA (A+)</th>
                         <th>Created By</th>
                         <th>Action</th>
                     </tr>
@@ -31,6 +32,7 @@
                         <td>{{$data->class_id}}</td>
                         <td>{{$data->auth_code}}</td>
                         <td>{{$data->class_name}}</td>
+                        <td>{{$data->gpa_outof}}</td>
                         <td>{{$data->user_id}}</td>
                         <td>
                             <a href="#" class="btn btn-success" title="Edit">
@@ -49,6 +51,7 @@
                         <th>Class ID</th>
                         <th>Auth Code</th>
                         <th>Class Name</th>
+                        <th>GPA (A+)</th>
                         <th>Created By</th>
                         <th>Action</th>
                     </tr>

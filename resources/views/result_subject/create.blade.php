@@ -2,11 +2,11 @@
 
 @section('content')
 
-<form action="{{url('/store')}}" method="post" class="container">
+<form action="{{url('/result/store')}}" method="post" class="container">
     @csrf
     <div class="row">
         <h3 class="text-info text-center">
-        Marks Entry <b>{{$setting->semester_name}}</b> Examination <b>{{$setting->year_id}}</b>
+        Marks Entry <b>{{$setting->semester_name}}</b> Examination <b>{{$setting->year_name}}</b>
         Class: <b>{{$setting->class_name}}</b> Department: <b>{{$setting->department_name}}</b></h3>
     </div>
     <div class="row">
@@ -34,10 +34,10 @@
             </select>
         </div>
         <div class="col-md-1">
-            <select name="year_id" id="" class="form-control">
-                <option value="{{$setting->year_id}}">{{$setting->year_id}}</option>
+            <select name="year_name" id="" class="form-control">
+                <option value="{{$setting->year_name}}">{{$setting->year_name}}</option>
                 @foreach($year as $year)
-                    <option value="{{$year->year_id}}">{{$year->year_name}}</option>
+                    <option value="{{$year->year_name}}">{{$year->year_name}}</option>
                 @endforeach
             </select>
         </div>
@@ -293,29 +293,54 @@
     inc_mark == incourse Maximum mark for form validation 
 */
     function total(incourse,mcq,cq,pt,inc_mark,inc_pass,mcq_mark,mcq_pass,cq_mark,cq_pass,pt_mark,pt_pass,total_mark,total_pass,subject_name){
-        
-        if(incourse <= inc_mark){
-            if(mcq <= mcq_mark){
-                if(cq <= cq_mark){
-                    if(pt <= pt_mark){
-                        if(incourse >= inc_pass && mcq >= mcq_pass && cq >= cq_pass && pt >= pt_pass){
-                            return Math.round(((mcq+cq+pt)*0.8)+incourse);
+        if(inc_mark != 0){ // for checking incourse mark yes or no
+            if(incourse <= inc_mark){
+                if(mcq <= mcq_mark){
+                    if(cq <= cq_mark){
+                        if(pt <= pt_mark){
+                            if(incourse >= inc_pass && mcq >= mcq_pass && cq >= cq_pass && pt >= pt_pass){
+                                return Math.round(((mcq+cq+pt)*0.8)+incourse);
+                            }else{
+                                return 0;
+                            }
+                            //total = mcq_cq_pt+incourse;
+                            //return total;
                         }else{
-                            return 0;
+                            swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" PT <= "+pt_mark,"error");
                         }
-                        //total = mcq_cq_pt+incourse;
-                        //return total;
                     }else{
-                        swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" PT <= "+pt_mark,"error");
+                        swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" CQ <= "+cq_mark,"error");
                     }
                 }else{
-                    swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" CQ <= "+cq_mark,"error");
+                    swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" MCQ <= "+mcq_mark,"error");
                 }
             }else{
-                swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" MCQ <= "+mcq_mark,"error");
+                swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" Incourse <= "+inc_mark,"error");
             }
         }else{
-            swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" Incourse <= "+inc_mark,"error");
+            //if(incourse <= inc_mark){
+                if(mcq <= mcq_mark){
+                    if(cq <= cq_mark){
+                        if(pt <= pt_mark){
+                            if(mcq >= mcq_pass && cq >= cq_pass && pt >= pt_pass){
+                                return Math.round(mcq+cq+pt);
+                            }else{
+                                return 0;
+                            }
+                            //total = mcq_cq_pt+incourse;
+                            //return total;
+                        }else{
+                            swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" PT <= "+pt_mark,"error");
+                        }
+                    }else{
+                        swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" CQ <= "+cq_mark,"error");
+                    }
+                }else{
+                    swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" MCQ <= "+mcq_mark,"error");
+                }
+            //}else{
+            //    swal("YOU EXIT MAXIMUM NUMBER","You Must Input "+subject_name+" Incourse <= "+inc_mark,"error");
+            //}
         }
     }
 

@@ -7,28 +7,40 @@ use Illuminate\Database\Eloquent\Model;
 
 class GetData extends Model
 {
+    
     //
     public function __construct()
     {
         //$this->middleware('auth');
     }
+    public function auth_code()
+    {
+        return Auth::user()->auth_code;
+    }
+
+    public static function get_month()
+    {
+        return $nationality = DB::table('mst_month')
+        ->get();
+    }
+
     public static function get_nationality()
     {
         return $nationality = DB::table('mst_nationalitys')
-        ->where('status',1)
+        ->where('nationality_status',1)
         ->get();
     }
 
     public static function get_religion()
     {
         return $religion = DB::table('mst_religions')
-        ->where('status',1)
+        ->where('religion_status',1)
         ->get();
     }
     public static function get_quota()
     {
         return $quota = DB::table('mst_quotas')
-        ->where('status',1)
+        ->where('quota_status',1)
         ->orderBy('quota_id','asc')
         ->get();
     }
@@ -86,6 +98,12 @@ class GetData extends Model
                 ->orderBy('semester_name','desc')
                 ->get();
     }
+    public static function get_subject_type()
+    {
+        return DB::table('mst_subjecttype')
+        ->where([['auth_code',Auth::user()->auth_code],['type_status',1]])
+        ->get();
+    }
     public static function get_year()
     {
         return DB::table('mst_years')
@@ -100,10 +118,11 @@ class GetData extends Model
         ->leftJoin('mst_classnames as b','a.class_id','=','b.class_id')
         ->leftJoin('mst_semesters as c','a.semester_id','=','c.semester_id')
         ->leftJoin('mst_departments as d','a.department_id','=','d.department_id')
-        ->leftJoin('mst_years as e', 'a.year_id','=','e.year_id')
-        ->select('a.*','b.*','c.*','d.*','e.*')
+        //->leftJoin('mst_years as e', 'a.year_id','=','e.year_id')
+        ->select('a.*','b.*','c.*','d.*')
         ->first();
     }
+    
     public static function get_allstudent()
     {
         return DB::table('admissions as a')
@@ -123,7 +142,7 @@ class GetData extends Model
         ->leftJoin('apps_division as f','a.division','=','f.division_id')
         ->leftJoin('apps_district as g','a.district','=','g.district_id')
         ->leftJoin('apps_upazila as h','a.upazila','=','h.upazila_id')
-        ->leftJoin('apps_union as i','a.union_name','=','i.union_id')
+        ->leftJoin('apps_union as i','a.union_id','=','i.union_id')
         ->leftJoin('mst_classnames as j','a.admission_class','=','j.class_id')
         ->leftJoin('mst_departments as k','a.department','=','k.department_id')
         ->where([['a.auth_code',Auth::user()->auth_code],['a.student_id',$student_id]])
@@ -171,6 +190,13 @@ class GetData extends Model
         ->where([['auth_code',Auth::user()->auth_code],[$statuscolumn,$statusvalue]])
         ->orderby($order_column,$orderby)
         ->get();
+    }
+
+    public static function fetch_edit($tbl,$unique_column_name,$unique_column_value)
+    {
+        return DB::table($tbl)
+        ->where([['auth_code',Auth::user()->auth_code],[$unique_column_name,$unique_column_value]])
+        ->first();
     }
 
     

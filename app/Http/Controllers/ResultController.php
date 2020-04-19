@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Test;
+use App\Result_subject;
 use App\GetData;
-class TestController extends Controller
+class ResultController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,6 +29,8 @@ class TestController extends Controller
      */
     public function create()
     {
+        //return GetData::get_setting();
+
         $get                = new GetData();
         $qry['setting']     = $get->get_setting();
         $qry['class']       = $get->get_class();
@@ -38,7 +44,7 @@ class TestController extends Controller
                         ['department_id',$qry['setting']->department_id]])
                     ->get();
                     
-        return view('test.create',$qry);
+        return view('result_subject.create',$qry);
     }
 
     /**
@@ -49,14 +55,28 @@ class TestController extends Controller
      */
     public function store(Request $request)
     {
-        $check = DB::table('tests')
+        // start for checking student registered or not
+        $check_reg = DB::table('studentregistrations')
+            ->where([
+                ['student_id',$request->input('student_id')],
+                    ['class_id',$request->input('class_id')],
+                    ['semester_id',$request->input('semester_id')],
+                    ['year_name',$request->input('year_name')]])
+            ->get();
+        
+        return $count_reg = $check_reg->count();
+
+        // start for checking data already inserted or not 
+        $check = DB::table('result_subjects')
                 ->where([
                     ['student_id',$request->input('student_id')],
                     ['class_id',$request->input('class_id')],
                     ['semester_id',$request->input('semester_id')],
-                    ['year_id',$request->input('year_id')]])
+                    ['year_name',$request->input('year_name')]])
                 ->get();
         $count = $check->count();
+        // end data insert checking
+
         $rows = $request->input('row');
         if($count == 0)
         { 
@@ -67,9 +87,10 @@ class TestController extends Controller
                     'class_id' => $request->input('class_id'),
                     'semester_id' => $request->input('semester_id'),
                     'auth_code' => Auth::user()->auth_code,
-                    'year_id'   => $request->input('year_id'),
+                    'year_name'   => $request->input('year_name'),
                     'subject_id' => $in['subject_id'],
                     'user_id' => Auth::user()->id,
+                    'incourse' => $in['incourse'],
                     'mcq' => $in['mcq'],
                     'cq' => $in['cq'],
                     'total' => $in['total'],
@@ -77,9 +98,9 @@ class TestController extends Controller
                     'grade' => $in['grade']
                 ];
             }
-            Test::insert($test);
+            Result_subject::insert($test);
 
-            return redirect('/create')->with('create','Submited');
+            return redirect('/result/create')->with('create','Submited');
         }
         else
         {
@@ -92,16 +113,17 @@ class TestController extends Controller
                     ['class_id',$request->input('class_id')],
                     ['semester_id',$request->input('semester_id')],
                     ['subject_id',$in['subject_id']],
-                    ['year_id',$request->input('year_id')]];
+                    ['year_name',$request->input('year_name')]];
 
                 $test = [
                 //'student_id' => $request->input('student_id'),
                 //'class_id' => $request->input('class_id'),
                 //'semester_id' => $request->input('semester_id'),
                 //'auth_code' => Auth::user()->auth_code,
-                ////'year_id'   => $request->input('year_id'),
+                ////'year_name'   => $request->input('year_name'),
                 //'subject_id' => $in['subject_id'],
                 'user_id' => Auth::user()->id,
+                'incourse' => $in['incourse'],
                 'mcq' => $in['mcq'],
                 'cq' => $in['cq'],
                 'total' => $in['total'],
@@ -109,10 +131,10 @@ class TestController extends Controller
                 'grade' => $in['grade']
                 ];
 
-                DB::table('tests')->where($where)->update($test);
+                DB::table('result_subjects')->where($where)->update($test);
             }
             //DB::table('tests')->where($where)->update($test);
-            return redirect('/create')->with('update','Mark Updated Successfull');
+            return redirect('/result/create')->with('update','Mark Updated Successfull');
         }
     }
 

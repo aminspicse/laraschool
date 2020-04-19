@@ -2,13 +2,13 @@
 
 
 @section('title')
-    Department List
+    Collection Category List
 @endsection
  
 @section('content')
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title">Data Table of Department <a href="{{url('department/create')}}">Create New Department</a></h3>
+            <h3 class="box-title">Data Table of Collection Category <a href="{{url('collectioncategory/create')}}">Create New Collection Category</a></h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
@@ -16,9 +16,9 @@
                 <thead>
                     <tr>
                         <th>SL</th>
-                        <th>Dept. ID</th>
+                        <th>Category ID</th>
                         <th>Auth Code</th>
-                        <th>Dept. Name</th>
+                        <th>Category Name</th>
                         <th>Created By</th>
                         <th>Description</th>
                         <th>Action</th>
@@ -29,16 +29,16 @@
                     @foreach($data as $data)
                         <tr>
                             <td>{{$i++}}</td>
-                            <td>{{$data->department_id}}</td>
+                            <td>{{$data->category_id}}</td>
                             <td>{{$data->auth_code}}</td>
-                            <td>{{$data->department_name}}</td>
+                            <td>{{$data->category_name}}</td>
                             <td>{{$data->user_id}}</td>
-                            <td>{{$data->descriptions}}</td>
+                            <td>{{$data->description}}</td>
                             <td>
-                                <a href="{{url('/department/edit')}}/{{$data->department_id}}" title="Edit" class="btn btn-success">
+                                <a href="{{url('/collectioncategory/edit')}}/{{$data->category_id}}" title="Edit" class="btn btn-success">
                                     <span class="fa fa-edit"></span>
                                 </a>
-                                <a href="{{url('/department/inactive')}}/{{$data->department_id}}" title="Inactive" class="btn btn-danger">
+                                <a href="{{url('/collectioncategory/inactive')}}/{{$data->category_id}}" title="Inactive" class="btn btn-danger">
                                     <span class="fa fa-remove"></span>
                                 </a>
                             </td>

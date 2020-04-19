@@ -117,14 +117,21 @@
                             <option value="4">CGPA</option>
                         </select>
                     </div>
-
+                    <div class="col-md-2"><label for="">Subject Type</label></div>
+                    <div class="col-md-2">
+                        <select name="subject_type" id="" class="form-control">
+                            @foreach($sub_type as $type)
+                            <option value="{{$type->subject_type}}">{{$type->type_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="">Description</label>
                     </div>
                     <div class="col-md-5">
-                        <textarea name="description" id="" cols="10" rows="3" class="form-control">{{old('description')}}</textarea>
+                        <textarea name="descriptions" id="" cols="10" rows="3" class="form-control">{{old('descriptions')}}</textarea>
                     </div>
                 </div>
                 <div class="row">

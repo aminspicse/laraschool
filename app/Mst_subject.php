@@ -25,7 +25,8 @@ class Mst_subject extends Model
         'total',
         'total_pass',
         'mark_system',
-        'description',
+        'subject_type',
+        'descriptions',
         
         'updated_by'
     ];

@@ -12,7 +12,7 @@ class Mst_setting extends Model
         'class_id',
         'department_id',
         'semester_id',
-        'year_id'
+        'year_name'
     ];
 
     public function getclass()

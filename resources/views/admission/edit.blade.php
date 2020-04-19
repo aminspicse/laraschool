@@ -131,7 +131,7 @@
                         <select name="admission_year" id="" class="form-control">
                             <option value="{{$qry->admission_year}}">{{$qry->admission_year}}</option>
                             @foreach($year as $year)
-                                <option value="{{$year->year_id}}">{{$year->year_name}}</option>
+                                <option value="{{$year->year_name}}">{{$year->year_name}}</option>
                             @endforeach
                         </select>
                         <button class="btn btn-info">Update</button>

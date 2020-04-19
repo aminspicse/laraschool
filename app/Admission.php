@@ -26,7 +26,7 @@ class Admission extends Model
         'division',
         'district',
         'upazila',
-        'union_name',
+        'union_id',
         'post_office',
         'permanent_address',
         'previous_education',
@@ -34,5 +34,6 @@ class Admission extends Model
         'department',
         'admission_year',
         'student_photo',
+        'user_id'
     ];
 }

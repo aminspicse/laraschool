@@ -65,7 +65,7 @@ class SettingController extends Controller
                 'class_id'  => request('class_id'),
                 'department_id'  => request('department_id'),
                 'semester_id'  => request('semester_id'),
-                'year_id'       => request('year_id'),
+                'year_name'       => request('year_name'),
             ]
         );
         return redirect('/setting')->with('create','Default Data Created');
@@ -108,7 +108,7 @@ class SettingController extends Controller
                 'class_id'=>$_POST['class_id'],
                 'semester_id'=>$_POST['semester_id'],
                 'department_id'=>$_POST['department_id'],
-                'year_id'=>$_POST['year_id']
+                'year_name'=>$_POST['year_name']
                 ]);
         return redirect('/setting')->with('update','Successfully Update Your Default Setting');
     }

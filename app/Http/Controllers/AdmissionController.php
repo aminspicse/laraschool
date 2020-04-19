@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Admission;
 use App\GetData;
-use PDF;
+use PDF; // for dom pdf 
+//use Fpdf;
+use Codedge\Fpdf\Facades\Fpdf;
 use App\StudentRegistration;
+use Illuminate\Support\Facades\Storage; // extra
 class AdmissionController extends Controller
 {
     public function __construct()
@@ -23,8 +26,15 @@ class AdmissionController extends Controller
      */
     public function index()
     {
+        ///header("Content-type: application/pdf");
+        Fpdf::AddPage();
+        Fpdf::SetFont('Arial', 'B', 18);
+        Fpdf::Cell(50, 25, 'Hello World!');
+         Fpdf::Output();
+        /*
         $student = GetData::get_allstudent();
         return view('admission.index',compact('student'));
+        */
     }
 
     /**
@@ -109,7 +119,7 @@ class AdmissionController extends Controller
             'division'          => request('division_id'),
             'district'          => request('district_id'),
             'upazila'           => request('upazila_id'),
-            'union_name'        => request('union_id'),
+            'union_id'          => request('union_id'),
             'post_office'       => request('post_office'),
             'permanent_address' => request('permanent_address'),
             'previous_education'=> request('previous_education_info'),
@@ -119,7 +129,7 @@ class AdmissionController extends Controller
             'admission_year'    => request('admission_year'),
             'student_photo'     => $filename,
         ]);
-
+/*
         StudentRegistration::create([
             'auth_code'         => Auth::user()->auth_code,
             'user_id'           => Auth::user()->id,
@@ -129,6 +139,7 @@ class AdmissionController extends Controller
             'year_id'           => request('admission_year'),
             'semester_id'       => request('admission_semester'),
         ]);
+        */
         return redirect(url('admission/new'))->with('create','Admission Successfull Your Id is = '.Auth::user()->auth_code.$serial);
         
     }
@@ -215,6 +226,8 @@ class AdmissionController extends Controller
                         'admission_year' => request('admission_year'),
                         'updated_at' => date('d-m-y h:i:s A')
                     ]);
+
+        return redirect('admission');
     }
 
     /**
@@ -314,7 +327,7 @@ class AdmissionController extends Controller
     {
         $auth = Auth::user();
         $std = GetData::get_student($id);
-        $output = '';
+        $output = ''; 
         $output .= '<html>
             <head>
                 <style>

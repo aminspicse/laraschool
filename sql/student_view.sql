@@ -18,4 +18,3 @@ SELECT 	a.student_id,
         substring(GET_CURRENT_YEAR(A.STUDENT_ID),-10) as registration_date,
         a.auth_code
 FROM admissions a
- 

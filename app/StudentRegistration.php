@@ -10,7 +10,7 @@ class StudentRegistration extends Model
         'student_id',
         'class_id',
         'semester_id',
-        'year_id',
+        'year_name',
         'user_id',
         'registration_date',
         'user_id',

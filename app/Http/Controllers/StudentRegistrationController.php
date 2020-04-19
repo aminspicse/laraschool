@@ -9,6 +9,10 @@ use App\GetData;
 use App\StudentRegistration;
 class StudentRegistrationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +21,7 @@ class StudentRegistrationController extends Controller
     public function index()
     {
         $year =GetData::get_setting();
-        //$year->year_id;
+        //$year->year_name;
         $data= DB::table('student_view')
             ->where([['registration_year',$year->year_name],['auth_code',Auth::user()->auth_code]])
             ->get();
@@ -31,12 +35,12 @@ class StudentRegistrationController extends Controller
      */
     public function create()
     {
-        $get = new GetData();
-        $data['class'] = $get->get_class();
-        $data['semester'] = $get->get_semester();
+        $get                = new GetData();
+        $data['class']      = $get->get_class();
+        $data['semester']   = $get->get_semester();
         $data['department'] = $get->get_department();
         $data['year']       = $get->get_year();
-        $data['setting'] = $get->get_setting();
+        $data['setting']    = $get->get_setting();
 
 
         return view('registration.create',$data);
@@ -50,18 +54,30 @@ class StudentRegistrationController extends Controller
      */
     public function store(Request $request)
     {
-            $data = new StudentRegistration();
-            $data->student_id = request("student_id");
-            $data->class_id = request("class_id");
-            $data->semester_id = request("semester_id");
-            $data->department_id = request("department_id");
-            $data->year_id = request("year_id");
-            $data->registration_date = request("registration_date");
-            $data->auth_code = Auth::user()->auth_code;
-            $data->user_id = Auth::user()->id;
+        $check = DB::table('studentregistrations')
+            ->where([['student_id',request("student_id")],['class_id',request("class_id")],['semester_id',request("semester_id")],['year_name',request('year_name')]])
+            ->get();
+        $count = $check->count();
+        if($count == 0)
+        {
+            
+            $data                       = new StudentRegistration();
+            $data->student_id           = request("student_id");
+            $data->class_id             = request("class_id");
+            $data->semester_id          = request("semester_id");
+            $data->department_id        = request("department_id");
+            $data->year_name            = request("year_name");
+            $data->registration_date    = request("registration_date");
+            $data->auth_code            = Auth::user()->auth_code;
+            $data->user_id              = Auth::user()->id;
             $data->save();
-            $data['success'] = "Successfully Saved Data";
-       
+            
+            $data['success']            = "<h4 style='color:green; margin:0px'>Successfully Registration Complete.".request("student_id")."</h4>";
+        }
+        else
+        {
+            $data['error']             = "<h4 style='color:red'>".request("student_id")." Student already registered. </h4>";
+        }
             
         return Response::json($data);
     }

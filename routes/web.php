@@ -10,6 +10,17 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Route::get('/pdf','route');
+Route::get('pdf', function(){
+    $fpdf = new Fpdf();
+    $fpdf->AddPage();
+    $fpdf->SetFont('Arial','B',16);
+    $fpdf->Cell(40,10,'Hello World!');
+    $fpdf->Output();
+    exit;
+    
+    });
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -84,10 +95,24 @@ Route::get('admission/downloadstudent/{id}','AdmissionController@downloadstudent
 Route::get('/registration','StudentRegistrationController@index');
 Route::get('/registration/new','StudentRegistrationController@create');
 Route::get('/registration/store','StudentRegistrationController@store');
-/// Testcontroller
-Route::get('/create','TestController@create');
-Route::post('/store','TestController@store');
 
+/// ResultController controller
+Route::get('/result/create','ResultController@create');
+Route::post('/result/store','ResultController@store');
+
+//MstCollectionCategoryController
+Route::get('/collectioncategory','MstCollectionCategoryController@index');
+Route::get('/collectioncategory/create','MstCollectionCategoryController@create');
+Route::post('/collectioncategory/store','MstCollectionCategoryController@store');
+Route::get('/collectioncategory/inactive/{id}','MstCollectionCategoryController@inactive');
+Route::get('/collectioncategory/edit/{id}','MstCollectionCategoryController@edit');
+Route::post('/collectioncategory/update/{id}','MstCollectionCategoryController@update');
+
+//TutionFeeController
+Route::get('/tution/create','TutionFeeController@create');
+
+// CollectionController
+Route::get('/collection','CollectionController@index');
 // uploadcontroller just for test
 Route::get('upload','UploadTest@index');
 Route::post('upload/store','UploadTest@store');

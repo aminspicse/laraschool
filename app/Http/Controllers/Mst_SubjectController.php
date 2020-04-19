@@ -34,10 +34,12 @@ class Mst_SubjectController extends Controller
      */
     public function create()
     {
-        $get = new GetData();
-        $qry['class'] = $get->get_class();
-        $qry['department'] = $get->get_department();
-        $qry['setting'] = $get->get_setting();
+        $get                    = new GetData();
+        $qry['class']           = $get->get_class();
+        $qry['department']      = $get->get_department();
+        $qry['setting']         = $get->get_setting();
+        $qry['sub_type']        = $get->get_subject_type();
+ 
         return view('mst.subject.create',$qry);
     }
 
@@ -50,29 +52,30 @@ class Mst_SubjectController extends Controller
     public function store(Request $request)
     {
         request()->validate([
-            'subject_name' => 'required',
-            'subject_code' => 'required|min:2'
+            'subject_name'          => 'required',
+            'subject_code'          => 'required|min:2'
         ]);
 
         Mst_subject::create([
-            'user_id' => Auth::user()->id,
-            'auth_code' => Auth::user()->auth_code,
-            'class_id'      => request('class_id'),
-            'department_id' => request('department_id'),
-            'subject_name' => request('subject_name'),
-            'subject_code' => request('subject_code'),
-            'incourse' => request('incourse'),
-            'incourse_pass' => request('incourse_pass'),
-            'mcq' => request('mcq'),
-            'mcq_pass' => request('mcq_pass'),
-            'cq' => request('cq'),
-            'cq_pass' => request('cq_pass'),
-            'pt' => request('pt'),
-            'pt_pass' => request('pt_pass'),
-            'total' => request('total'),
-            'total_pass' => request('total_pass'),
-            'mark_system' => request('mark_system'),
-            'description' => request('description'),
+            'user_id'               => Auth::user()->id,
+            'auth_code'             => Auth::user()->auth_code,
+            'class_id'              => request('class_id'),
+            'department_id'         => request('department_id'),
+            'subject_name'          => request('subject_name'),
+            'subject_code'          => request('subject_code'),
+            'incourse'              => request('incourse'),
+            'incourse_pass'         => request('incourse_pass'),
+            'mcq'                   => request('mcq'),
+            'mcq_pass'              => request('mcq_pass'),
+            'cq'                    => request('cq'),
+            'cq_pass'               => request('cq_pass'),
+            'pt'                    => request('pt'),
+            'pt_pass'               => request('pt_pass'),
+            'total'                 => request('total'),
+            'total_pass'            => request('total_pass'),
+            'mark_system'           => request('mark_system'),
+            'subject_type'          => request('subject_type'),
+            'descriptions'           => request('descriptions'),
 
         ]);
 
@@ -123,7 +126,7 @@ class Mst_SubjectController extends Controller
     {
         //
     }
-
+ 
     public function inactive($subject_id)
     {
         GetData::status('mst_subjects','subject_id',$subject_id,'subject_status',0);

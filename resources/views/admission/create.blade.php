@@ -119,7 +119,7 @@
                         <label for="">Year</label>
                         <select name="admission_year" id="" class="form-control">
                             @foreach($year as $year)
-                                <option value="{{$year->year_id}}">{{$year->year_name}}</option>
+                                <option value="{{$year->year_name}}">{{$year->year_name}}</option>
                             @endforeach
                         </select>
                         <label for="">Photo</label>

@@ -15,9 +15,18 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-2"><p><b>GPA System</b></p></div>
+                <div class="col-md-3">
+                    <select name="gpa_outof" class="form-control" id="">
+                        <option value="5">GPA: 5.00 (A+)</option>
+                        <option value="4">GPA: 4.00 (A+)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-2"><p><b>Remarks</b></p></div>
                 <div class="col-md-3">
-                    <textarea name="remarks" id="" cols="29" rows="2"></textarea>
+                    <textarea name="remarks" class="form-control" id="" cols="32" rows="2"></textarea>
                 </div>
             </div>
             <div class="row">

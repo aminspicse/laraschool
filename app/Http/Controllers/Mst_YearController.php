@@ -41,14 +41,32 @@ class Mst_YearController extends Controller
      */
     public function store(Request $request)
     {
-        Mst_year::create([
-            'auth_code' => Auth::user()->auth_code,
-            'user_id'   => Auth::user()->id,
-            'year_name' => request('year_name'),
-            'remarks'   => request('remarks')
-        ]);
+        $check = DB::table('mst_years')
+                ->where([
+                    'auth_code'     => Auth::user()->auth_code,
+                    'year_name'     => request('year_name'),
+                    'year_status'   => 1
+                ])
+                ->get();
+        $year_name = request('year_name');
 
-        return redirect(url('year'))->with('create','A Year created Successfully');
+        if($count = $check->count() == 0)
+        {
+            Mst_year::create([
+                'auth_code' => Auth::user()->auth_code,
+                'user_id'   => Auth::user()->id,
+                'year_name' => request('year_name'),
+                'remarks'   => request('remarks')
+            ]);
+    
+            return redirect(url('year'))->with('create','A Year created Successfully');
+        }
+        else
+        {
+            return redirect(url('year'))->with('delete',$year_name.' Already created Don\'t try to create duplicate year');
+        }
+
+        
     }
 
     /**

@@ -42,6 +42,7 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
 <!-- the fixed layout is not compatible with sidebar-mini -->
@@ -267,6 +268,7 @@
             <li><a href="{{url('/department')}}"><i class="fa fa-circle-o"></i>Department</a></li>
             <li><a href="{{url('/class')}}"><i class="fa fa-circle-o"></i>Class</a></li>
             <li><a href="{{url('/subject')}}"><i class="fa fa-circle-o"></i>Subject</a></li>
+            <li><a href="{{url('/collectioncategory')}}"><i class="fa fa-circle-o"></i>Collection Category</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -297,7 +299,36 @@
             <li><a href="{{url('/admission/report')}}"><i class="fa fa-circle-o"></i>Report</a></li>
           </ul>
         </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Mark Entry/Update</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/result/create')}}"><i class="fa fa-circle-o"></i>Mark Reading</a></li>
+            <li><a href="#newreg" id="newreg"><i class="fa fa-circle-o"></i>Mark Update</a></li>
+            <li><a href="{{url('/admission/report')}}"><i class="fa fa-circle-o"></i>Report</a></li>
+          </ul>
+        </li>
         @endif
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Tution Fee</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('/tution/create')}}"><i class="fa fa-circle-o"></i>Create Tution</a></li>
+            <li><a href="#newreg" id="newreg"><i class="fa fa-circle-o"></i>Mark Update</a></li>
+            <li><a href="{{url('/admission/report')}}"><i class="fa fa-circle-o"></i>Report</a></li>
+          </ul>
+        </li>
+
         <li class="treeview active">
           <a href="#">
             <i class="fa fa-files-o"></i>

@@ -43,7 +43,7 @@ class Mst_DepartmentController extends Controller
 
         $data = new Mst_department();
         $data->department_name = $_POST['department_name'];
-        $data->description = $_POST['description'];
+        $data->descriptions = $_POST['description'];
         $data->user_id = Auth::user()->id;
         $data->auth_code = Auth::user()->auth_code;
         $data->save();
@@ -92,7 +92,7 @@ class Mst_DepartmentController extends Controller
 
         $data = DB::table('mst_departments')
             ->where([['department_id',$id],['auth_code',Auth::user()->auth_code]])
-            ->update(['department_name'=>$_POST['department_name'],'description'=>$_POST['description']]);
+            ->update(['department_name'=>$_POST['department_name'],'descriptions'=>$_POST['description']]);
         
         //$data->department_name = $_POST['department_name'];
         //$data->description = $_POST['description'];
