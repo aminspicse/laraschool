@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Mst_classname;
+use App\LibSubject;
 use App\GetData;
-class Mst_ClassnameController extends Controller
+
+class LibSubjectController extends Controller
 {
     public function __construct()
     {
@@ -17,15 +19,12 @@ class Mst_ClassnameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
-        $get = new GetData();
-        $qry['class'] = $get->get_class();
-        return view('mst.class.index',$qry);
+        $qry['data'] = GetData::get_lib_subject();
+        return view('lib.subject.index',$qry);
     }
 
-   
     /**
      * Show the form for creating a new resource.
      *
@@ -33,9 +32,8 @@ class Mst_ClassnameController extends Controller
      */
     public function create()
     {
-        $get = new GetData();
-        $qry['class'] = $get->get_lib_class();
-        return view('mst.class.create',$qry);
+        
+        return view("lib.subject.create");
     }
 
     /**
@@ -46,31 +44,24 @@ class Mst_ClassnameController extends Controller
      */
     public function store(Request $request)
     {
-        $lib_cls_id = request('lib_cls_id');
+        $subject    = $_POST['subject_name'];
+        $code       = $_POST['subject_code'];
 
-       $check = DB::table('mst_classnames')
-                ->where([
-                    ['lib_cls_id',$lib_cls_id],
-                    ['auth_code',Auth::user()->auth_code]
-                ])
-                ->get();
-        if($check->count() < 1)
+        $qry = DB::table('lib_subjects')
+               ->where([['subject_code',$code],['subject_name',$subject]])
+               ->get();
+        
+        if($qry->count() < 1)
         {
-
-            Mst_classname::create([
-                'user_id'           => Auth::user()->id,
-                'auth_code'         => Auth::user()->auth_code,
-                'lib_cls_id'        => $lib_cls_id,
-                'gpa_outof'         => request('gpa_outof'),
-                'remarks'           => request('remarks')
+            LibSubject::create([
+                'subject_code' => $code,
+                'subject_name' => $subject,
             ]);
-
-            return redirect(url('class'))->with('create','Class Created Successfully');
+            return redirect('lib/subject')->with('create','A Subject Created Successfully');
         }
         else
         {
-            
-            return redirect(url('class/create'))->with('inactive','Class ('.$lib_cls_id.') Already Created');
+            return redirect('lib/subject/create')->with('delete','Already Found This Subject ('.$code.' '.$subject.')');
         }
     }
 
@@ -114,9 +105,8 @@ class Mst_ClassnameController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($class_id)
+    public function destroy($id)
     {
-        GetData::status('mst_classnames','class_id',$class_id,'class_status',0);
-        return redirect(url('class'))->with('inactive','A Class Successfully Inactive');
+        //
     }
 }

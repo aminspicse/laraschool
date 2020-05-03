@@ -11,7 +11,11 @@
             <div class="row">
                 <div class="col-md-2"><p><b>Class Name</b></p></div>
                 <div class="col-md-3">
-                    <input type="text" name="class_name" required class="form-control">
+                    <select name="lib_cls_id" id="" class="form-control">
+                        @foreach($class as $cls)
+                            <option value="{{$cls->lib_cls_id}}">{{$cls->class_name}} ({{$cls->lib_cls_id}})</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="row">

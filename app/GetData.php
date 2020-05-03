@@ -78,6 +78,19 @@ class GetData extends Model
         ->orderBy('union_name','asc')
         ->get();
     }
+    public static function get_lib_subject()
+    {
+        return DB::table('lib_subjects')
+                ->orderBy('subject_name','asc')
+                ->orderBy('subject_code','asc')
+                    ->get();
+    }
+    public static function get_lib_class()
+    {
+        return DB::table('lib_class')
+                ->orderBy('lib_cls_id','asc')
+                ->get();
+    }
     public static function get_department()
     {
         return DB::table('mst_departments')
@@ -87,8 +100,10 @@ class GetData extends Model
     }
     public static function get_class()
     {
-        return $class = DB::table('mst_classnames')
-        ->where([['auth_code',Auth::user()->auth_code],['class_status',1]])
+        return $class = DB::table('mst_classnames as a')
+        ->leftJoin('lib_class as b','a.lib_cls_id','=','b.lib_cls_id')
+        ->where([['a.auth_code',Auth::user()->auth_code],['a.class_status',1]])
+        ->select('a.*','b.class_name')
         ->get();
     }
     public static function get_semester()
@@ -101,13 +116,13 @@ class GetData extends Model
     public static function get_subject_type()
     {
         return DB::table('mst_subjecttype')
-        ->where([['auth_code',Auth::user()->auth_code],['type_status',1]])
+        //->where([['auth_code',Auth::user()->auth_code],['type_status',1]])
         ->get();
     }
     public static function get_year()
     {
         return DB::table('mst_years')
-        ->where([['auth_code',Auth::user()->auth_code],['year_status',1]])
+        ->where([['year_status',1]])
         ->orderBy('year_id','desc')
         ->get();
     }
@@ -118,17 +133,25 @@ class GetData extends Model
         ->leftJoin('mst_classnames as b','a.class_id','=','b.class_id')
         ->leftJoin('mst_semesters as c','a.semester_id','=','c.semester_id')
         ->leftJoin('mst_departments as d','a.department_id','=','d.department_id')
+        ->leftJoin('lib_class as e','b.lib_cls_id','=','e.lib_cls_id')
         //->leftJoin('mst_years as e', 'a.year_id','=','e.year_id')
-        ->select('a.*','b.*','c.*','d.*')
+        ->select('a.*','b.*','c.*','d.*','e.class_name')
         ->first();
     }
     
+    public static function get_mark_system()
+    {
+        return DB::table('mark_systems')
+                ->orderBy('mark_system','desc')
+                    ->get();
+    }
     public static function get_allstudent()
     {
         return DB::table('admissions as a')
                     ->where('a.auth_code',Auth::user()->auth_code)
                     ->leftJoin('mst_classnames as b','a.admission_class','=','b.class_id')
-                    ->select('a.*','b.class_name')
+                    ->leftJoin('lib_class as c','b.lib_cls_id','=','c.lib_cls_id')
+                    ->select('a.*','c.class_name')
                     ->orderBy('student_id','desc')
                     ->get();
     }
@@ -156,10 +179,12 @@ class GetData extends Model
     public static function get_subject()
     {
         return DB::table('mst_subjects as a')
-        ->leftJoin('mst_classnames as b','a.class_id','=','b.class_id')
-        ->leftJoin('mst_departments as c', 'a.department_id','=','c.department_id')
+        ->leftJoin('lib_subjects as b','a.lib_sub_id','=','b.lib_sub_id')
+        ->leftJoin('mst_classnames as c','a.class_id','=','c.class_id')
+        ->leftJoin('mst_departments as d', 'a.department_id','=','d.department_id')
+        ->leftJoin('lib_class as e','c.lib_cls_id','=','e.lib_cls_id')
         ->where([['a.auth_code',Auth::user()->auth_code],['a.subject_status',1]])
-        ->select('a.*','b.class_name','c.department_name')
+        ->select('a.*','b.*','c.*','d.department_name','e.class_name')
         ->get();
     }
     /*

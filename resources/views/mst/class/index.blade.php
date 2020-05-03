@@ -17,7 +17,7 @@
                     <tr>
                         <th>SL</th>
                         <th>Class ID</th>
-                        <th>Auth Code</th>
+                        <th>Class Code</th>
                         <th>Class Name</th>
                         <th>GPA (A+)</th>
                         <th>Created By</th>
@@ -30,7 +30,7 @@
                     <tr>
                         <td>{{$i++}}</td>
                         <td>{{$data->class_id}}</td>
-                        <td>{{$data->auth_code}}</td>
+                        <td>{{$data->lib_cls_id}}</td>
                         <td>{{$data->class_name}}</td>
                         <td>{{$data->gpa_outof}}</td>
                         <td>{{$data->user_id}}</td>

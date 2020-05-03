@@ -11,6 +11,7 @@ class ResultController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        date_default_timezone_set("Asia/Dhaka");
     }
     /**
      * Display a listing of the resource.
@@ -37,11 +38,12 @@ class ResultController extends Controller
         $qry['semester']    = $get->get_semester();
         $qry['year']        = $get->get_year();
         $qry['department']  = $get->get_department();
-        $qry['subject'] = DB::table('mst_subjects')
+        $qry['subject'] = DB::table('mst_subjects as a')
+                    ->leftJoin('lib_subjects as b','a.lib_sub_id','=','b.lib_sub_id')
                     ->where([
-                        ['auth_code',Auth::user()->auth_code],
-                        ['class_id',$qry['setting']->class_id],
-                        ['department_id',$qry['setting']->department_id]])
+                        ['a.auth_code',Auth::user()->auth_code],
+                        ['a.class_id',$qry['setting']->class_id],
+                        ['a.department_id',$qry['setting']->department_id]])
                     ->get();
                     
         return view('result_subject.create',$qry);
@@ -55,24 +57,34 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
+        $student_id     = $request->input('student_id');
+        $class_id       = $request->input('class_id');
+        $semester_id    = $request->input('semester_id');
+        $department_id  = $request->input('department_id');
+        $year_name      = $request->input('year_name');
+
         // start for checking student registered or not
         $check_reg = DB::table('studentregistrations')
             ->where([
-                ['student_id',$request->input('student_id')],
-                    ['class_id',$request->input('class_id')],
-                    ['semester_id',$request->input('semester_id')],
-                    ['year_name',$request->input('year_name')]])
+                    ['student_id',$student_id],
+                    ['class_id',$class_id],
+                    ['semester_id',$semester_id],
+                    ['department_id',$department_id],
+                    ['year_name',$year_name]])
             ->get();
         
-        return $count_reg = $check_reg->count();
+        if($count_reg = $check_reg->count() == 0)
+        {
+            return redirect('/result/create')->with('delete','ID '.$student_id.' Class '.$class_id.' Semester '.$semester_id.' Dept '.$department_id.' Year '.$year_name.' not Registered');
+        }
 
         // start for checking data already inserted or not 
         $check = DB::table('result_subjects')
                 ->where([
-                    ['student_id',$request->input('student_id')],
-                    ['class_id',$request->input('class_id')],
-                    ['semester_id',$request->input('semester_id')],
-                    ['year_name',$request->input('year_name')]])
+                    ['student_id',$student_id],
+                    ['class_id',$class_id],
+                    ['semester_id',$semester_id],
+                    ['year_name',$year_name]])
                 ->get();
         $count = $check->count();
         // end data insert checking
@@ -86,6 +98,7 @@ class ResultController extends Controller
                     'student_id' => $request->input('student_id'),
                     'class_id' => $request->input('class_id'),
                     'semester_id' => $request->input('semester_id'),
+                    'department_id' => $request->input('department_id'),
                     'auth_code' => Auth::user()->auth_code,
                     'year_name'   => $request->input('year_name'),
                     'subject_id' => $in['subject_id'],
@@ -112,6 +125,7 @@ class ResultController extends Controller
                     ['student_id',$request->input('student_id')],
                     ['class_id',$request->input('class_id')],
                     ['semester_id',$request->input('semester_id')],
+                    //['department_id',$request->input('department_id')],
                     ['subject_id',$in['subject_id']],
                     ['year_name',$request->input('year_name')]];
 
@@ -122,13 +136,15 @@ class ResultController extends Controller
                 //'auth_code' => Auth::user()->auth_code,
                 ////'year_name'   => $request->input('year_name'),
                 //'subject_id' => $in['subject_id'],
-                'user_id' => Auth::user()->id,
+                'updated_by' => Auth::user()->id,
+                'department_id' => $request->input('department_id'),
                 'incourse' => $in['incourse'],
                 'mcq' => $in['mcq'],
                 'cq' => $in['cq'],
                 'total' => $in['total'],
                 'gpa'   => $in['gpa'],
-                'grade' => $in['grade']
+                'grade' => $in['grade'],
+                'updated_at' => Date('Y-m-d h:i:s A')
                 ];
 
                 DB::table('result_subjects')->where($where)->update($test);

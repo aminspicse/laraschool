@@ -26,15 +26,15 @@ class AdmissionController extends Controller
      */
     public function index()
     {
-        ///header("Content-type: application/pdf");
+        /*header("Content-type: application/pdf");
         Fpdf::AddPage();
         Fpdf::SetFont('Arial', 'B', 18);
         Fpdf::Cell(50, 25, 'Hello World!');
          Fpdf::Output();
-        /*
+        */
         $student = GetData::get_allstudent();
         return view('admission.index',compact('student'));
-        */
+        
     }
 
     /**
@@ -71,23 +71,25 @@ class AdmissionController extends Controller
     {
         
         $qry = DB::table('admissions')
+                ->select('serial_no')
                 ->where('auth_code',Auth::user()->auth_code)
                 ->orderBy('serial_no','desc')
                 ->take(1)
                 ->get();
         //return $qry->count();
         if($qry->count() == 0){
-            $serial = '000001';
+            $sl = 1;
         }
         else
         {
             foreach ($qry as $qry) {
-                $serial = $qry->serial_no;
+                $sl = $qry->serial_no;
             }
-            ++$serial;
+            ++$sl;
         }
         
-        //return $serial;
+        $serial = str_pad($sl,6,0,STR_PAD_LEFT);
+
         //return request('student_name');
         request()->validate([
             'student_name'  => 'required',
@@ -101,7 +103,7 @@ class AdmissionController extends Controller
             https://quickadminpanel.com/blog/file-upload-in-laravel-the-ultimate-guide/
         */
         Admission::create([
-            'serial_no'         =>$serial,
+            'serial_no'         => $serial,
             'auth_code'         => Auth::user()->auth_code,
             'student_id'        => Auth::user()->auth_code.$serial,
             'user_id'           => Auth::user()->id,
@@ -139,7 +141,7 @@ class AdmissionController extends Controller
             'year_id'           => request('admission_year'),
             'semester_id'       => request('admission_semester'),
         ]);
-        */
+  */      
         return redirect(url('admission/new'))->with('create','Admission Successfull Your Id is = '.Auth::user()->auth_code.$serial);
         
     }
@@ -188,6 +190,7 @@ class AdmissionController extends Controller
         $data['department']     = $get->get_department();
         $data['year']           = $get->get_year();
         $data['qry']            = $get->get_student($id);
+
         return view('admission.edit',$data);
     }
 
@@ -203,16 +206,16 @@ class AdmissionController extends Controller
         $update = DB::table('admissions')
                   ->where([['student_id',$id],['auth_code',Auth::user()->auth_code]])
                   ->update([
-                        'student_name' => request('student_name'),
-                        'father_name' => request('father_name'),
-                        'mother_name' => request('mother_name'),
-                        'mobile_number' => request('mobile_number'),
-                        'nationality' => request('nationality'),
-                        'nid' => request('nid'),
-                        'dateofbirth' => request('dateofbirth'),
-                        'religion' => request('religion_id'),
-                        'quota' => request('quota_id'),
-                        'admission_date' => request('admissiondate'),
+                        'student_name'      => request('student_name'),
+                        'father_name'       => request('father_name'),
+                        'mother_name'       => request('mother_name'),
+                        'mobile_number'     => request('mobile_number'),
+                        'nationality'       => request('nationality'),
+                        'nid'               => request('nid'),
+                        'dateofbirth'       => request('dateofbirth'),
+                        'religion'          => request('religion_id'),
+                        'quota'             => request('quota_id'),
+                        'admission_date'    => request('admissiondate'),
                         //'country' => request('country_id'),
                         //'division' => request('division_id'),
                         //'district' => request('district_id'),

@@ -39,7 +39,8 @@ class Mst_SubjectController extends Controller
         $qry['department']      = $get->get_department();
         $qry['setting']         = $get->get_setting();
         $qry['sub_type']        = $get->get_subject_type();
- 
+        $qry['lib_subject']     = $get->get_lib_subject();
+        $qry['mark_system']     = $get->get_mark_system();
         return view('mst.subject.create',$qry);
     }
 
@@ -51,18 +52,20 @@ class Mst_SubjectController extends Controller
      */
     public function store(Request $request)
     {
+        /*
         request()->validate([
             'subject_name'          => 'required',
             'subject_code'          => 'required|min:2'
         ]);
-
+        */
         Mst_subject::create([
             'user_id'               => Auth::user()->id,
             'auth_code'             => Auth::user()->auth_code,
             'class_id'              => request('class_id'),
             'department_id'         => request('department_id'),
-            'subject_name'          => request('subject_name'),
-            'subject_code'          => request('subject_code'),
+            //'subject_name'          => request('subject_name'),
+            //'subject_code'          => request('subject_code'),
+            'lib_sub_id'            => request('lib_sub_id'),
             'incourse'              => request('incourse'),
             'incourse_pass'         => request('incourse_pass'),
             'mcq'                   => request('mcq'),

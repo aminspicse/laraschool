@@ -14,6 +14,7 @@
 
             <form action="{{url('/subject/store')}}" method="post">
                 @csrf
+                <!--
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label for="">Subject Name</label>
@@ -28,6 +29,19 @@
                     </div>
                     <div class="col-md-5">
                         <input type="text" name="subject_code" value="{{old('subject_code')}}" required class="form-control">
+                    </div>
+                </div>
+                -->
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="">Subject</label>
+                    </div>
+                    <div class="col-md-5">
+                        <select name="lib_sub_id" value="{{old('lib_sub_id')}}" required class="form-control">
+                            @foreach($lib_subject as $lib)
+                                <option value="{{$lib->lib_sub_id}}">{{$lib->subject_name}}({{$lib->subject_code}})</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -113,8 +127,9 @@
                     <div class="col-md-2"><label for="">Mark System</label></div>
                     <div class="col-md-1">
                         <select name="mark_system" id="" class="form-control">
-                            <option value="5">GPA</option>
-                            <option value="4">CGPA</option>
+                            @foreach($mark_system as $mark)
+                                <option value="{{$mark->mark_system}}">{{$mark->mark_system}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-2"><label for="">Subject Type</label></div>

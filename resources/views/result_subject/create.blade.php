@@ -33,6 +33,14 @@
                 @endforeach
             </select>
         </div>
+        <div class="col-md-2">
+            <select name="department_id" id="" class="form-control">
+                <option value="{{$setting->department_id}}">{{$setting->department_name}}</option>
+                @foreach($department as $dept)
+                    <option value="{{$dept->department_id}}">{{$dept->department_name}}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="col-md-1">
             <select name="year_name" id="" class="form-control">
                 <option value="{{$setting->year_name}}">{{$setting->year_name}}</option>
@@ -113,7 +121,7 @@
                     {{$sub->total_pass}},
                     '{{$sub->subject_name}}'
                     )"  
-                    class="form-control display" value="0" placeholder="Mcq">
+                    class="form-control display" placeholder="Mcq">
                 @else
                     <input type="text" name="row[{{$i}}][mcq]" id="mcq[{{$i}}]" 
                     onchange="document.getElementById('total[{{$i}}]').value=

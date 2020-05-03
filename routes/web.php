@@ -120,3 +120,13 @@ Route::post('upload/store','UploadTest@store');
 //AjaxLive Just for test controller and its resources
 Route::get('/ajax','AjaxLive@index');
 Route::get('/search','AjaxLive@search');
+
+//LibSubject
+Route::get('/lib/subject/','LibSubjectController@index');
+Route::get('/lib/subject/create','LibSubjectController@create');
+Route::post('/lib/subject/store','LibSubjectController@store');
+
+//LibClass
+Route::get('/lib/class/','LibClassController@index');
+Route::get('/lib/class/create','LibClassController@create');
+Route::post('/lib/class/store','LibClassController@store');
